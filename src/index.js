@@ -7,7 +7,7 @@ const session = require('express-session');
 
 ///////Initialation 
 const app = express();
-//require('./database');
+require('./database');
 
 /////// Settings 
 
@@ -15,14 +15,14 @@ app.set('port', process.env.PORT || 3000); //si un servicio en la nube me ofrece
 app.set('views', path.join(__dirname, 'views')); //se indica al servidor donde se encuentra views, dirname devuelve el directorio donde es ejecutado y join une directorios
 //configuración de handlebars, el main nos permite reutilizar código como el header, el footer, colores etc
 app.engine('.hbs', exphbs({
-    defaultLayout: 'main.hbs',
+    defaultLayout: 'main',
     layoutsDir: path.join(app.get('views'), 'layouts'), //se indica la dirección donde se encuentra el main
     partialsDir: path.join(app.get('views'), 'partials'), //reutilizar pedazos de codigo(formularios, cards)
     extname: '.hbs'
 }));
 
 //se establece el motor de plantillas (handlebars)
-app.set('views engine', '.hbs');
+app.set('view engine', '.hbs');
 
 /////// Middlewares
 app.use(express.urlencoded({extended: false}) ); //para recibir datos de los formularios, false para no recibir img u otros formatos

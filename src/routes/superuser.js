@@ -3,8 +3,8 @@
 const express = require('express');
 const router = express.Router(); //para creación de rutas
 
-router.get('/superuser', (req, res) => {
-    res.send('Home superusuario');
+router.get('/superuser/home', (req, res) => {
+    res.render('superuser/home');
 });
 
 module.exports = router;
