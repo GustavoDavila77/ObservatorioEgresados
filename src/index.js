@@ -13,7 +13,7 @@ require('./database');
 require('./config/passport');
 /////// Settings 
 
-app.set('port', process.env.PORT || 3000); //si un servicio en la nube me ofrece un puerto utilicelo sino utilice el 3000
+app.set('port', process.env.PORT || 32231); //si un servicio en la nube me ofrece un puerto utilicelo sino utilice el 3000
 app.set('views', path.join(__dirname, 'views')); //se indica al servidor donde se encuentra views, dirname devuelve el directorio donde es ejecutado y join une directorios
 //configuración de handlebars, el main nos permite reutilizar código como el header, el footer, colores etc
 app.engine('.hbs', exphbs({
