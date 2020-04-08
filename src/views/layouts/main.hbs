@@ -18,6 +18,9 @@
     <p>Aqui va el header</p>
 
     <div class="container">
+        <!-- los partials son archivos que pueden ser usados por cualquier vista, ejem mensages de exito o de error-->
+        {{> messages}} <!-- Se llama al archivo messages de partials-->
+        {{> errors}}
         {{{ body }}} <!-- Esto es lo unico que va a cambiar en el resto de vistas -->
     </div>
     
