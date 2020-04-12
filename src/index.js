@@ -4,8 +4,11 @@ const path = require('path');
 const exphbs = require('express-handlebars');
 const methodOverride = require('method-override');
 const session = require('express-session');
-const flash = require('connect-flash'); //envio de mensajes entre vistas 
+const flash = require('connect-flash'); //envio de mensajes entre vistas
 const passport = require('passport');
+// se instalan estos modulos para permiter el acceso a las propiedades de una instancia en handlebars que por defecto no estan permitidas 
+const Handlebars = require('handlebars');
+const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access');
 
 ///////Initialation 
 const app = express();
@@ -21,7 +24,8 @@ app.engine('.hbs', exphbs({
     layoutsDir: path.join(app.get('views'), 'layouts'), //se indica la dirección donde se encuentra el main
     partialsDir: path.join(app.get('views'), 'partials'), //reutilizar pedazos de codigo(formularios, cards)
     //partialsDir: path.join(app.get('views'), 'superuser'), Access has been denied to resolve the property "name"
-    extname: '.hbs'
+    handlebars: allowInsecurePrototypeAccess(Handlebars),
+    extname: '.hbs' 
 }));
 
 //se establece el motor de plantillas (handlebars)
@@ -49,7 +53,7 @@ app.use((req, res, next) => {
     res.locals.error_msg = req.flash('error_msg');
     res.locals.error = req.flash('error'); //para mostrar errores de passport
     res.locals.user = req.user || null; //cuando un user se autentica passport guarda la info, si no esta autenticado su valor es null
-    next(); //para que continue con el resto de codigo 
+    next(); //para que continue con el resto de codigo  
 });
 
 ////////Routes 
