@@ -10,13 +10,13 @@ const passport = require('passport');
 const Handlebars = require('handlebars');
 const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access');
 
-///////Initialation 
+///////Initialation
 const app = express();
 require('./database');
 require('./config/passport');
-/////// Settings 
+/////// Settings
 
-app.set('port', process.env.PORT || 3000); //si un servicio en la nube me ofrece un puerto utilicelo sino utilice el 3000
+app.set('port', process.env.PORT || 5000); //si un servicio en la nube me ofrece un puerto utilicelo sino utilice el 3000
 app.set('views', path.join(__dirname, 'views')); //se indica al servidor donde se encuentra views, dirname devuelve el directorio donde es ejecutado y join une directorios
 //configuración de handlebars, el main nos permite reutilizar código como el header, el footer, colores etc
 app.engine('.hbs', exphbs({
@@ -41,28 +41,28 @@ app.use(session({ //para guardar los datos de inicio de los usuarios
 }));
 
 //config de passport
-app.use(passport.initialize()); 
+app.use(passport.initialize());
 app.use(passport.session()); //para que use session - definido en los middlewares
-app.use(flash());  
+app.use(flash());
 
 
-//////// Global Variables 
+//////// Global Variables
 // se hace uso de flash, para mostrar mensajes de exito en todas las vistas
 app.use((req, res, next) => {
-    res.locals.success_msg = req.flash('success_msg'); //si se utiliza flash con 'success_msg' imprimira un aviso de exito 
+    res.locals.success_msg = req.flash('success_msg'); //si se utiliza flash con 'success_msg' imprimira un aviso de exito
     res.locals.error_msg = req.flash('error_msg');
     res.locals.error = req.flash('error'); //para mostrar errores de passport
     res.locals.user = req.user || null; //cuando un user se autentica passport guarda la info, si no esta autenticado su valor es null
     next(); //para que continue con el resto de codigo  
 });
 
-////////Routes 
+////////Routes
 app.use(require('./routes/authentication'));
 app.use(require('./routes/superuser'));
 
-//////// Static Files 
+//////// Static Files
 app.use(express.static(path.join(__dirname, 'public')));
 ////////Server listening
 app.listen(app.get('port'), () => {
     console.log('Server escuchando en puerto', app.get('port'));
-}); 
+});
