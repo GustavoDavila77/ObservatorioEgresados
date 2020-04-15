@@ -4,16 +4,19 @@ const path = require('path');
 const exphbs = require('express-handlebars');
 const methodOverride = require('method-override');
 const session = require('express-session');
-const flash = require('connect-flash'); //envio de mensajes entre vistas 
+const flash = require('connect-flash'); //envio de mensajes entre vistas
 const passport = require('passport');
+// se instalan estos modulos para permiter el acceso a las propiedades de una instancia en handlebars que por defecto no estan permitidas 
+const Handlebars = require('handlebars');
+const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access');
 
-///////Initialation 
+///////Initialation
 const app = express();
 require('./database');
 require('./config/passport');
-/////// Settings 
+/////// Settings
 
-app.set('port', process.env.PORT || 32231); //si un servicio en la nube me ofrece un puerto utilicelo sino utilice el 3000
+app.set('port', process.env.PORT || 5000); //si un servicio en la nube me ofrece un puerto utilicelo sino utilice el 3000
 app.set('views', path.join(__dirname, 'views')); //se indica al servidor donde se encuentra views, dirname devuelve el directorio donde es ejecutado y join une directorios
 //configuración de handlebars, el main nos permite reutilizar código como el header, el footer, colores etc
 app.engine('.hbs', exphbs({
@@ -21,10 +24,11 @@ app.engine('.hbs', exphbs({
     layoutsDir: path.join(app.get('views'), 'layouts'), //se indica la dirección donde se encuentra el main
     partialsDir: path.join(app.get('views'), 'partials'), //reutilizar pedazos de codigo(formularios, cards)
     //partialsDir: path.join(app.get('views'), 'superuser'), Access has been denied to resolve the property "name"
-    extname: '.hbs'
+    handlebars: allowInsecurePrototypeAccess(Handlebars),
+    extname: '.hbs' 
 }));
-
-//se establece el motor de plantillas (handlebars)
+ 
+//se establece el motor de plantillas (handlebars) 
 app.set('view engine', '.hbs');
 
 /////// Middlewares
@@ -37,28 +41,28 @@ app.use(session({ //para guardar los datos de inicio de los usuarios
 }));
 
 //config de passport
-app.use(passport.initialize()); 
+app.use(passport.initialize());
 app.use(passport.session()); //para que use session - definido en los middlewares
-app.use(flash());  
+app.use(flash());
 
 
-//////// Global Variables 
+//////// Global Variables
 // se hace uso de flash, para mostrar mensajes de exito en todas las vistas
 app.use((req, res, next) => {
-    res.locals.success_msg = req.flash('success_msg'); //si se utiliza flash con 'success_msg' imprimira un aviso de exito 
+    res.locals.success_msg = req.flash('success_msg'); //si se utiliza flash con 'success_msg' imprimira un aviso de exito
     res.locals.error_msg = req.flash('error_msg');
     res.locals.error = req.flash('error'); //para mostrar errores de passport
-    res.locals.user = req.user || null; //cuando un user se autentica passport guarda la info, si no esta autenticado su valor es null
-    next(); //para que continue con el resto de codigo 
-});
+    res.locals.user = req.user || null; //cuando un user se autentica passport guarda la info en req, si no esta autenticado su valor es null
+    next(); //para que continue con el resto de codigo  
+}); 
 
-////////Routes 
+////////Routes
 app.use(require('./routes/authentication'));
-app.use(require('./routes/superuser'));
+app.use(require('./routes/superuser'));  
 
-//////// Static Files 
+//////// Static Files
 app.use(express.static(path.join(__dirname, 'public')));
 ////////Server listening
 app.listen(app.get('port'), () => {
     console.log('Server escuchando en puerto', app.get('port'));
-}); 
+});
