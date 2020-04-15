@@ -11,11 +11,15 @@ router.get('/', (req, res) => {
 router.post('/', passport.authenticate('local', {
     successRedirect: '/superuser/home',
     failureRedirect: '/',
-    failureFlash: true //para enviar mensajes flash
+    failureFlash: true //para enviar mensajes flash, lo hace con la var user en index
 })); 
 
 router.get('/signup', (req, res) => {
     res.render('signup');
 });
 
+router.get('/logout', (req,res) =>{
+    req.logout();
+    res.redirect('/');
+})
 module.exports = router;

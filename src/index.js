@@ -27,8 +27,8 @@ app.engine('.hbs', exphbs({
     handlebars: allowInsecurePrototypeAccess(Handlebars),
     extname: '.hbs' 
 }));
-
-//se establece el motor de plantillas (handlebars)
+ 
+//se establece el motor de plantillas (handlebars) 
 app.set('view engine', '.hbs');
 
 /////// Middlewares
@@ -52,13 +52,13 @@ app.use((req, res, next) => {
     res.locals.success_msg = req.flash('success_msg'); //si se utiliza flash con 'success_msg' imprimira un aviso de exito
     res.locals.error_msg = req.flash('error_msg');
     res.locals.error = req.flash('error'); //para mostrar errores de passport
-    res.locals.user = req.user || null; //cuando un user se autentica passport guarda la info, si no esta autenticado su valor es null
+    res.locals.user = req.user || null; //cuando un user se autentica passport guarda la info en req, si no esta autenticado su valor es null
     next(); //para que continue con el resto de codigo  
-});
+}); 
 
 ////////Routes
 app.use(require('./routes/authentication'));
-app.use(require('./routes/superuser'));
+app.use(require('./routes/superuser'));  
 
 //////// Static Files
 app.use(express.static(path.join(__dirname, 'public')));
