@@ -4,10 +4,28 @@ const bcrypt = require('bcryptjs');
 const passportLocalMongoose = require('passport-local-mongoose');
 
 const UserSchema = new Schema({
-    name: {type: String, required:true},
-    lastname: {type: String, required: true},
-    email: {type: String, required: true},
-    password: {type:String, required: true},
+
+    egresados: {
+        //permiso: {type: String, default: 3}
+        email: {type: String, required: true},
+        password: {type:String, required: true},
+        dni: {type: String, require: true},
+        personaldata: {
+            name: {type: String, required:true},
+            lastname: {type: String, required: true},
+            country: {type: String, required: true},
+            city: {type: String, required: true},
+            
+        },        
+     },
+    superusers:{
+        email: {type: String, required: true},
+        password: {type:String, required: true},
+        personaldata: {
+            name: {type: String, required:true},
+            lastname: {type: String, required: true},
+        } 
+    },
 });
 
 //metodo para retornar la constraseña cifrada
@@ -24,5 +42,5 @@ UserSchema.methods.matchPassword = async function (password) {
 
 UserSchema.plugin(passportLocalMongoose);
 
-const superuser = mongoose.model('superusers', UserSchema);
-module.exports = superuser;   
+const users = mongoose.model('users', UserSchema);
+module.exports = users;

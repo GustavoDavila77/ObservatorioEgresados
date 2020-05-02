@@ -1,0 +1,50 @@
+
+<div class="row text-center">
+  <div class="col-lg-4 offset-lg-4">
+      <h4 class="mb-2"><STRONg>REGISTRATE</STRONg></h4>
+      <h6 class="mb-4">Debes ingresar todos los datos</h6>
+        <form action="/egresados/signup" method="POST">
+          <div class="form-group">
+            <input type="text" class="form-control" name="name" placeholder="Nombre" value="{{name}}">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" name="lastname" placeholder="Apellido" value="{{lastname}}">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" name="dni" placeholder="Cédula" value="{{dni}}">
+          </div>
+          <div class="form-group">
+            <input type="email" class="form-control" name="email" placeholder="Correo" value="{{email}}">
+          </div>
+          <div class="form-group">
+            <input type="password" class="form-control" name="password" placeholder="Password" value="{{password}}">
+          </div>
+          <div class="form-group">
+            <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password">
+          </div>
+        
+          <div class="form-group">
+                <select class="form-control form-control-sm" name="country">
+                    <option selected value="null">Pais</option>   
+                    <option value="Colombia">Colombia</option>
+                    <option value="Mexico">Mex</option>   
+                </select>
+          </div> 
+
+          <!--
+          <div class="form-group">
+                <select class="form-control form-control-sm" name="city">
+                    <option selected value="null">Ciudad</option>   
+                    <option value="Colombia">Bogota</option>
+                    <option value="Mexico">Medellin</option>
+                </select>
+          </div> -->
+        <div class="form-group mt-5">
+            <button class="btn btn-enter">
+                Registrarse 
+            </button>
+        </div>
+          
+        </form>
+  </div>
+</div>

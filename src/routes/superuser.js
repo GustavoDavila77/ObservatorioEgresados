@@ -17,12 +17,14 @@ router.post('/superuser/secret_signup', async (req, res) => {
     const { name, lastname, email, password, confirm_password } = req.body;
     let errors = []; 
     
-    //TODO set all validations 
     if(name.length <= 0){
         errors.push({text: 'Please Insert your Name'});
     }
     if(lastname.length <= 0){
         errors.push({text: 'Please Insert your LastName'});
+    }
+    if(email.length <= 0){
+      errors.push({text: 'Please Insert your email'});
     }
     if(password != confirm_password) {
       errors.push({text: 'Passwords do not match.'});
@@ -43,6 +45,7 @@ router.post('/superuser/secret_signup', async (req, res) => {
       } else{
         const newUser = new SuperUser({name,lastname,email,password});
         newUser.password = await newUser.encryptPassword(password); //se remplaza la contrase por la encriptada
+        console.log('pase encryptación');
         await newUser.save();
         console.log('Te has registrado');
         req.flash('success_msg', 'You are registered.');
