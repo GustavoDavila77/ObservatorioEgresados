@@ -20,11 +20,15 @@ router.post('/', passport.authenticate('local', {
     failureFlash: true
     }), function(req, res){
         //res.redirect('/superuser/home');
-        console.log(req.user.lastname);
-        let apellido = req.user.lastname;
-        if(apellido == 'Davila'){
+        // TODO evitar que una vez autenticado se pueda accedar a rutas de admin o superuser
+        console.log(req.user.tipouser);
+        let tipouser = req.user.tipouser;
+        if(tipouser == 'superusuario'){
             res.redirect('/superuser/home');
         }
+        if(tipouser == 'egresado'){
+            res.redirect('/egresados/home'); 
+        }    
 }); 
 
 router.get('/signup', (req, res) => {

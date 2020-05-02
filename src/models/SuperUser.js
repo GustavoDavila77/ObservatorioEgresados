@@ -3,11 +3,17 @@ const { Schema } = mongoose; //requiero solo su esquema
 const bcrypt = require('bcryptjs');
 const passportLocalMongoose = require('passport-local-mongoose');
 
+// add superhabilitado: 0/1
 const UserSchema = new Schema({
     name: {type: String, required:true},
     lastname: {type: String, required: true},
     email: {type: String, required: true},
     password: {type:String, required: true},
+    dni: {type: String, require: false},
+    country: {type: String, required: false},
+    city: {type: String, required: false},
+    tipouser: {type: String, required: true}
+
 });
 
 //metodo para retornar la constraseña cifrada
