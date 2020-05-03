@@ -15,6 +15,7 @@ router.post('/superuser/secret_signup', async (req, res) => {
     console.log(req.body);
     //res.send('ok');
     const { name, lastname, email, password, confirm_password, tipouser} = req.body;
+    const superhabilidado = true;
     let errors = []; 
     
     if(name.length <= 0){
@@ -46,13 +47,13 @@ router.post('/superuser/secret_signup', async (req, res) => {
         req.flash('error_msg', 'El correo ya esta en uso');
         res.redirect('/superuser/secret_signup');
       } else{
-        const newUser = new SuperUser({name,lastname,email,password,tipouser});
+        const newUser = new SuperUser({name,lastname,email,password,superhabilidado, tipouser});
         newUser.password = await newUser.encryptPassword(password); //se remplaza la contrase por la encriptada
         console.log('pase encryptación');
         await newUser.save();
         console.log('Te has registrado');
         req.flash('success_msg', 'You are registered.');
-        res.redirect('/superuser/home');   
+        res.redirect('/');   
       }
           
     } 

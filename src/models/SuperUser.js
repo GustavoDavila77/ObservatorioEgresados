@@ -9,10 +9,8 @@ const UserSchema = new Schema({
     lastname: {type: String, required: true},
     email: {type: String, required: true},
     password: {type:String, required: true},
-    dni: {type: String, require: false},
-    country: {type: String, required: false},
-    city: {type: String, required: false},
-    tipouser: {type: String, required: true}
+    superhabilitado: {type: Boolean, default: true},
+    tipouser: {type: String, required: true} 
 
 });
 
