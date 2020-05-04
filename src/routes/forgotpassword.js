@@ -18,9 +18,10 @@ router.get('/', (req, res) => {
 });
 
 router.post('/forgotpassword/getdata', async (req, res) =>  {
-    const {email, dni } = req.body;
+    const {email, cedula} = req.body;
     const emailUser = await SuperUser.findOne({email: email});
-    const DNIUser = await SuperUser.findOne({dni: dni});
+    const dnibd = emailUser.dni;
+    console.log(cedula);
     contentHTML = '<h2>Nueva clave</h2><ul><li>Clave:  '+generar()+'</li></ul>';
     //Creamos el objeto de transporte
     var transporter = nodemailer.createTransport({
@@ -35,20 +36,25 @@ router.post('/forgotpassword/getdata', async (req, res) =>  {
 
     var mailOptions = {
         from: 'projectslabegresados@gmail.com',
-        to: {email},
+        to: ' '+email+' ',
         subject: 'Recuperar contraseña',
         html: contentHTML
     };
 
-    if(emailUser /*&& DNIUser*/) {
-        await transporter.sendMail(mailOptions, function(error, info){
-            if (error) {
-                console.log(error);
-            } else {
-                console.log('Email enviado: ' + info.response);
-            }
-        });
-        res.redirect('/');
+    if(emailUser) {
+        if(cedula == dnibd){
+            await transporter.sendMail(mailOptions, function(error, info){
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log('Email enviado: ' + info.response);
+                }
+            });
+            res.redirect('/');
+        }else{
+            req.flash('error_msg', 'El DNI es incorrecto intente nuevamente');
+            res.redirect('/forgotpassword');
+        }
     }else{
         req.flash('error_msg', 'El correo es incorrecto o el DNI es incorrecto intente nuevamente');
         res.redirect('/forgotpassword');
