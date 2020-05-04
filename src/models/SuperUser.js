@@ -10,6 +10,7 @@ const UserSchema = new Schema({
     email: {type: String, required: true},
     password: {type:String, required: true},
     superhabilitado: {type: Boolean, default: true},
+    dni: {type: String, required: true},
     tipouser: {type: String, required: true} 
 
 });
