@@ -14,27 +14,44 @@ router.get('/superuser/secret_signup', (req, res) => {
 router.post('/superuser/secret_signup', async (req, res) => {
     console.log(req.body);
     //res.send('ok');
+<<<<<<< HEAD
     const { name, lastname, dni, email, password, confirm_password } = req.body;
+=======
+    const { name, lastname, email, password, confirm_password, tipouser} = req.body;
+    const superhabilidado = true;
+>>>>>>> Davila
     let errors = []; 
     
-    //TODO set all validations 
     if(name.length <= 0){
         errors.push({text: 'Please Insert your Name'});
     }
     if(lastname.length <= 0){
         errors.push({text: 'Please Insert your LastName'});
     }
+<<<<<<< HEAD
     if(dni.length <= 0){
       errors.push({text: 'Please Insert your DNI'});
   }
+=======
+    if(email.length <= 0){
+      errors.push({text: 'Please Insert your email'});
+    }
+>>>>>>> Davila
     if(password != confirm_password) {
       errors.push({text: 'Passwords do not match.'});
     }
     if(password.length < 4) {
       errors.push({text: 'Passwords must be at least 4 characters.'})
     }
+    if(tipouser.length <= 0){
+      errors.push({text: 'Please Insert your tipo de user'});
+    }
     if(errors.length > 0){
+<<<<<<< HEAD
       res.render('superuser/secretSignup', {errors, lastname, name, dni, email, password, confirm_password});
+=======
+      res.render('superuser/secretSignup', {errors, lastname, name, email, password, confirm_password, tipouser});
+>>>>>>> Davila
     } else {
       // Look for email coincidence - hay un user registrado con el mismo correo?
       //let pruebase = SuperUser.find();
@@ -44,12 +61,17 @@ router.post('/superuser/secret_signup', async (req, res) => {
         req.flash('error_msg', 'El correo ya esta en uso');
         res.redirect('/superuser/secret_signup');
       } else{
+<<<<<<< HEAD
         const newUser = new SuperUser({name,lastname,dni,email,password});
+=======
+        const newUser = new SuperUser({name,lastname,email,password,superhabilidado, tipouser});
+>>>>>>> Davila
         newUser.password = await newUser.encryptPassword(password); //se remplaza la contrase por la encriptada
+        console.log('pase encryptación');
         await newUser.save();
         console.log('Te has registrado');
         req.flash('success_msg', 'You are registered.');
-        res.redirect('/superuser/home');   
+        res.redirect('/');   
       }
           
     } 

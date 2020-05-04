@@ -3,15 +3,16 @@ const { Schema } = mongoose; //requiero solo su esquema
 const bcrypt = require('bcryptjs');
 const passportLocalMongoose = require('passport-local-mongoose');
 
-// add superhabilitado: 0/1
+// add egresadohabilitado: 0/1
 const UserSchema = new Schema({
-    name: {type: String, required:true},
-    lastname: {type: String, required: true},
-    email: {type: String, required: true},
-    password: {type:String, required: true},
-    superhabilitado: {type: Boolean, default: true},
-    tipouser: {type: String, required: true} 
-
+        //permiso: {type: String, default: 3}
+        name: {type: String, required:true},
+        lastname: {type: String, required: true},
+        email: {type: String, required: true},
+        password: {type:String, required: true},
+        dni: {type: String, require: true},
+        country: {type: String, required: true},
+        tipouser: {type: String, required: true}      
 });
 
 //metodo para retornar la constraseña cifrada
@@ -28,5 +29,5 @@ UserSchema.methods.matchPassword = async function (password) {
 
 UserSchema.plugin(passportLocalMongoose);
 
-const superuser = mongoose.model('superusers', UserSchema);
-module.exports = superuser;   
+const egresado = mongoose.model('egresados', UserSchema);
+module.exports = egresado;

@@ -1,4 +1,9 @@
-<h1>Home del superuser</h1>
-{{#if user}}
-    <h1>hi {{user.name}}</h1>
-{{/if}}
+{{> navigationsuperuser}}
+
+<div class="container"> 
+    <h1>Home del superuser</h1>
+    {{#if user}}
+        <h1>hi {{user.name}}</h1>
+    {{/if}}
+</div>
+

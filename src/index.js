@@ -13,7 +13,13 @@ const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-acce
 ///////Initialation
 const app = express();
 require('./database');
+<<<<<<< HEAD
 require('./config/passport'); 
+=======
+require('./config/passport');  
+
+
+>>>>>>> Davila
 /////// Settings
 
 app.set('port', process.env.PORT || 5000); //si un servicio en la nube me ofrece un puerto utilicelo sino utilice el 3000
@@ -55,15 +61,22 @@ app.use((req, res, next) => {
     res.locals.user = req.user || null; //cuando un user se autentica passport guarda la info en req, si no esta autenticado su valor es null
     next(); //para que continue con el resto de codigo  
 }); 
-
+ 
 ////////Routes
 app.use(require('./routes/authentication'));
+<<<<<<< HEAD
 app.use(require('./routes/superuser'));  
 app.use(require('./routes/forgotpassword'));  
 
+=======
+app.use(require('./routes/superuser'));
+app.use(require('./routes/egresados'));     
+  
+>>>>>>> Davila
 //////// Static Files
 app.use(express.static(path.join(__dirname, 'public')));
 ////////Server listening
 app.listen(app.get('port'), () => {
     console.log('Server escuchando en puerto', app.get('port'));
-});
+});  
+ 
