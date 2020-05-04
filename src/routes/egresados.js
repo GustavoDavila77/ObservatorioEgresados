@@ -12,6 +12,7 @@ router.get('/egresados/signup', (req, res) => {
 });
 
 router.get('/egresados/home', (req, res) => {
+  //res.send('entre al home egre');
   res.render('egresados/home');
 });
  
