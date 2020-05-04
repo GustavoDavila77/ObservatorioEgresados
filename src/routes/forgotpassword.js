@@ -5,8 +5,7 @@ const SuperUser = require('../models/superuser');
 const nodemailer = require('nodemailer');
 
 
-function generar()
-{
+function generar(){
   var caracteres = "abcdefghijkmnpqrtuvwxyzABCDEFGHIJKLMNPQRTUVWXYZ2346789";
   var contraseña = "";
   for (i=0; i<8; i++) contraseña += caracteres.charAt(Math.floor(Math.random()*caracteres.length));
@@ -21,8 +20,9 @@ router.post('/forgotpassword/getdata', async (req, res) =>  {
     const {email, cedula} = req.body;
     const emailUser = await SuperUser.findOne({email: email});
     const dnibd = emailUser.dni;
-    console.log(cedula);
-    contentHTML = '<h2>Nueva clave</h2><ul><li>Clave:  '+generar()+'</li></ul>';
+    const claves = generar();
+    console.log(emailUser);
+    contentHTML = '<h2>Nueva clave</h2><ul><li>Clave:  '+claves+'</li></ul>';
     //Creamos el objeto de transporte
     var transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -50,6 +50,8 @@ router.post('/forgotpassword/getdata', async (req, res) =>  {
                     console.log('Email enviado: ' + info.response);
                 }
             });
+            await emailUser.updateOne({password: await emailUser.encryptPassword(claves)});
+            await emailUser.save();
             res.redirect('/');
         }else{
             req.flash('error_msg', 'El DNI es incorrecto intente nuevamente');
