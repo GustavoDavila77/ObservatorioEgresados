@@ -1,0 +1,57 @@
+<!-- Registro de adminstradores por parte del superusuario --> 
+
+<div class="row mt-3 text-center">
+    <div class="col-lg-4 offset-lg-4">
+        <h4 class="mb-4"><STRONg>Registro de Administradores</STRONg></h4>
+        <p>Ingrese todos los datos de los administradores</p>
+        <form action="/superuser/crearadmin" method="POST">
+            <div class="form-group">
+                <input type="text" class="form-control" name="name" placeholder="Nombre" value="{{name}}" autofocus required>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" name="lastname" placeholder="Apellido" value="{{lastname}}" required>
+            </div>
+            <div class="form-group">
+                <input type="number" class="form-control" name="dni" placeholder="Cédula" value="{{dni}}" required>
+            </div> 
+                <div class="form-group">
+                    <input type="email" name="email" class="form-control" d="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Correo electronico" required>
+                </div>
+            <div class="form-group">
+                <input type="text" class="form-control" name="address" placeholder="Dirección" value="{{address}}" required>
+            </div>
+            <div class="form-group">
+                <input type="number" class="form-control" name="telefono" placeholder="Telefono" value="{{lastname}}" required>
+            </div>
+            <!-- TODO cargar de una base de datos todos los paises y ciudades-->
+            <div class="form-group">
+                    <select class="form-control form-control-sm" name="country">
+                        <option selected value="null">Pais</option>   
+                        <option value="Colombia">Colombia</option>
+                        <option value="Mexico">Mexico</option>
+                        <option value="Mexico">España</option>
+                        <option value="Mexico">Canada</option>
+                        <option value="Mexico">Australia</option>         
+                    </select>
+            </div>
+            <div class="form-group">
+                    <select class="form-control form-control-sm" name="country">
+                        <option selected value="null">Ciudad</option>   
+                        <option value="Colombia">Bogota</option>
+                        <option value="Mexico">Medellin</option>
+                        <option value="Mexico">Cali</option>
+                        <option value="Mexico">Pereira</option>
+                        <option value="Mexico">Barranquilla</option>         
+                    </select>
+            </div>
+            <div class="form-group">
+                <!-- TODO generar contraseña y enviar al correo del admin-->
+                <p><strong>Nota:</strong> La contraseña se generarea automaticamente y será enviada al futuro administrador</p>
+            </div>
+            <div class="form-group mt-4">
+                <button type="submit" class="btn btn-enter">Registrar</button>
+            </div>
+            
+        </form>
+    </div>
+</div>

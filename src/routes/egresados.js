@@ -2,7 +2,6 @@
 const express = require('express');
 const router = express.Router(); //para creación de rutas
 
-// TODO almacenar egresados en otro squema
 //const SuperUser = require('../models/superuser');
 const Egresado = require('../models/Egresado');
 
@@ -64,7 +63,6 @@ router.post('/egresados/signup', async (req, res) => {
         console.log('despues de crear');
         newEgresado.password = await newEgresado.encryptPassword(password); //se remplaza la contrase por la encriptada
         console.log('despues de encryptar'); 
-        // TODO Corregir problema con creación de egresados
         await newEgresado.save();  
         console.log('Te has registrado!');
         req.flash('success_msg', 'You are registered.');

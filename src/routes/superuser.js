@@ -14,7 +14,7 @@ router.get('/superuser/secret_signup', (req, res) => {
 router.post('/superuser/secret_signup', async (req, res) => {
     console.log(req.body);
     //res.send('ok');
-    const { name, lastname, email, password, confirm_password, tipouser} = req.body;
+    const { name, lastname, dni, email, password, confirm_password, tipouser} = req.body;
     const superhabilidado = true;
     let errors = []; 
     
@@ -53,7 +53,7 @@ router.post('/superuser/secret_signup', async (req, res) => {
         req.flash('error_msg', 'El correo ya esta en uso');
         res.redirect('/superuser/secret_signup');
       } else{
-        const newUser = new SuperUser({name,lastname,email,password,superhabilidado, tipouser});
+        const newUser = new SuperUser({name,lastname,dni,email,password,superhabilidado, tipouser});
         newUser.password = await newUser.encryptPassword(password); //se remplaza la contrase por la encriptada
         console.log('pase encryptación');
         await newUser.save();
@@ -69,4 +69,11 @@ router.get('/superuser/home', isAuthenticated, async (req, res) => {
     res.render('superuser/home');
 });
 
+router.get('/superuser/crearadmin', isAuthenticated, async (req, res) => {
+  res.render('admin/signup');
+});
+
+router.post('/superuser/crearadmin', async (req, res) => {
+  res.send('Generar contraseña y Guardar admin en base de datos');
+});
 module.exports = router;
