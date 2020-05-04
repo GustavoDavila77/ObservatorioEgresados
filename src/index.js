@@ -14,7 +14,7 @@ const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-acce
 const app = express();
 require('./database');
 require('./config/passport');  
-
+ 
 
 /////// Settings
 
