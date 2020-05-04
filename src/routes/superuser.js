@@ -24,12 +24,15 @@ router.post('/superuser/secret_signup', async (req, res) => {
     if(lastname.length <= 0){
         errors.push({text: 'Please Insert your LastName'});
     }
+
     if(dni.length <= 0){
-      errors.push({text: 'Please Insert your cédula'});
-    }
+      errors.push({text: 'Please Insert your DNI'});
+  }
+
     if(email.length <= 0){
       errors.push({text: 'Please Insert your email'});
     }
+
     if(password != confirm_password) {
       errors.push({text: 'Passwords do not match.'});
     }
@@ -56,7 +59,7 @@ router.post('/superuser/secret_signup', async (req, res) => {
         await newUser.save();
         console.log('Te has registrado');
         req.flash('success_msg', 'You are registered.');
-        res.redirect('/');    
+        res.redirect('/');
       }
           
     } 

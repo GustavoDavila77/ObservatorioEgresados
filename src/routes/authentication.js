@@ -31,6 +31,10 @@ router.post('/', passport.authenticate('local', {
         }    
 }); 
 
+router.get('/forgotpassword', (req, res) => {
+    res.render('forgotPass');
+});
+
 router.get('/signup', (req, res) => {
     res.render('signup');
 });
