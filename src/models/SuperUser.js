@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose; //requiero solo su esquema
 const bcrypt = require('bcryptjs');
+const passportLocalMongoose = require('passport-local-mongoose');
 
 const UserSchema = new Schema({
     name: {type: String, required:true},
@@ -20,6 +21,8 @@ UserSchema.methods.encryptPassword = async (password) => {
 UserSchema.methods.matchPassword = async function (password) {
     return await bcrypt.compare(password, this.password); //se compara la contraseña ingresada vs la del modelo
 };
+
+UserSchema.plugin(passportLocalMongoose);
 
 const superuser = mongoose.model('superusers', UserSchema);
 module.exports = superuser;
