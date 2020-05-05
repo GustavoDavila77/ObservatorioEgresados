@@ -69,9 +69,9 @@ app.use(require('./routes/administradores'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 //leer localhost de variables y puerto
-const host = process.env.HOST || '0.0.0.0'; 
+const host = process.env.HOST || '0.0.0.0'; //heroku cambia el host 0.0.0.0
 const port = process.env.PORT || 5000;
-////////Server listening
+////////Server listening con port y host
 app.listen(port, host, () => {
     console.log('El servidor esta funcionando');
 });
