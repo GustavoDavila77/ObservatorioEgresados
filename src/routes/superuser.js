@@ -3,7 +3,7 @@
 const express = require('express');
 const router = express.Router(); //para creación de rutas
 
-const SuperUser = require('../models/superuser');
+const SuperUser = require('../models/SuperUser');
 const Admins = require('../models/Administradores');
 const nodemailer = require('nodemailer');
 const { isAuthenticated } = require('../helpers/auth');

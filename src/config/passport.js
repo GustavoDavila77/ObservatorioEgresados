@@ -1,7 +1,7 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
-const User = require('../models/superuser'); //traemos el esquema de User de la db
+const User = require('../models/SuperUser'); //traemos el esquema de User de la db
 const UserEgresado = require('../models/Egresado');
 const UserAdmin = require('../models/Administradores');
 
