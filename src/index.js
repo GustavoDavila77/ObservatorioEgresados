@@ -13,7 +13,8 @@ const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-acce
 ///////Initialation
 const app = express();
 require('./database');
-require('./config/passport');  
+require('./config/passport');
+require('dotenv').config({ path: './src/variables.env'});  
 
 /////// Settings
 
@@ -66,8 +67,17 @@ app.use(require('./routes/administradores'));
 
 //////// Static Files
 app.use(express.static(path.join(__dirname, 'public')));
+
+//leer localhost de variables y puerto
+const host = process.env.HOST || '0.0.0.0'; 
+const port = process.env.PORT || 5000;
 ////////Server listening
+app.listen(port, host, () => {
+    console.log('El servidor esta funcionando');
+});
+/*
+// app.listen original, funciona bien
 app.listen(app.get('port'), () => {
     console.log('Server escuchando en puerto', app.get('port'));
-});  
+});  */
  
