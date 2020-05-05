@@ -12,6 +12,10 @@ const UserSchema = new Schema({
         password: {type:String, required: true},
         dni: {type: String, require: true},
         country: {type: String, required: true},
+        city: {type: String, required: true},
+        interests: {type: String, required: true},
+        age: {type: Number, require: true},
+        gender: {type: String, require: true},
         tipouser: {type: String, required: true}      
 });
 

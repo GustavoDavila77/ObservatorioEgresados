@@ -28,7 +28,10 @@ router.post('/', passport.authenticate('local', {
         }
         if(tipouser == 'egresado'){
             res.redirect('/egresados/home'); 
-        }    
+        } 
+        if(tipouser == 'administrador'){
+            res.redirect('/admin/home');
+        }   
 }); 
 
 router.get('/forgotpassword', (req, res) => {

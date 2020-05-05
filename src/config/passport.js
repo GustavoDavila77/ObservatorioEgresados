@@ -3,6 +3,7 @@ const LocalStrategy = require('passport-local').Strategy;
 
 const User = require('../models/superuser'); //traemos el esquema de User de la db
 const UserEgresado = require('../models/Egresado');
+const UserAdmin = require('../models/Administradores');
 
 // se define la estrategia de 
 //se utiliza el callback 'done' para avisar cuando se termina
@@ -15,6 +16,7 @@ passport.use(new LocalStrategy({
     const user = await User.findOne({email: email});
     //next(); 
     const useregresado = await UserEgresado.findOne({email: email});
+    const useradmin = await UserAdmin.findOne({email: email});
 
     if(user){
         const match = await user.matchPassword(password); //se ejecuta metodo definido en el modelo para verificar contraseña
@@ -28,6 +30,14 @@ passport.use(new LocalStrategy({
         const match = await useregresado.matchPassword(password); //se ejecuta metodo definido en el modelo para verificar contraseña
         if(match) {
             return done(null, useregresado);
+        }else{
+            return done(null, false, {message: 'Incorrect Password'});
+        }
+    }
+    else if(useradmin){
+        const match = await useradmin.matchPassword(password); //se ejecuta metodo definido en el modelo para verificar contraseña
+        if(match) {
+            return done(null, useradmin);
         }else{
             return done(null, false, {message: 'Incorrect Password'});
         }

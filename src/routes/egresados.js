@@ -16,11 +16,12 @@ router.get('/egresados/home', (req, res) => {
   res.render('egresados/home');
 });
  
-// TODO validar proximamente que el correo ingresado no este ni en superusuario ni en admin 
+// TODO Hacer validación que el user este en la base de datos de la utp, PERO que no este en la colección de egresados
 router.post('/egresados/signup', async (req, res) => {
     console.log(req.body);
     //res.send('ok');
-    const { name, lastname, dni, email, password, confirm_password, country} = req.body;
+    const { name, lastname, dni, email, password, confirm_password, country, city, interests, age, gender} = req.body;
+  
     const tipouser = 'egresado';
     let errors = []; 
     
@@ -43,10 +44,26 @@ router.post('/egresados/signup', async (req, res) => {
       errors.push({text: 'Passwords must be at least 4 characters.'})
     }    
     if(country == 'null'){
-        errors.push({text: 'Please Insert your city'});
+        errors.push({text: 'Please Insert your country'});
+    }
+    if(city == 'null'){
+      errors.push({text: 'Please Insert your city'});
+    }
+    if(interests == 'null'){
+      errors.push({text: 'Please Insert your interests'});
+    }
+    if(age.length <= 0){
+      errors.push({text: 'Please Insert your age'});
+    }
+    if(age <= 14 ){
+      errors.push({text: 'Incorrect age'});
+    }
+    
+    if(gender == 'null'){
+      errors.push({text: 'Please Insert your gender'});
     }
     if(errors.length > 0){ 
-      res.render('egresados/signup', {errors, lastname, name, dni, email, password, confirm_password, tipouser});
+      res.render('egresados/signup', {errors, lastname, name, dni, email, password, confirm_password, tipouser, age});
     } else {
         //res.send('fine');
       // Look for email coincidence - hay un user registrado con el mismo correo?
@@ -60,7 +77,7 @@ router.post('/egresados/signup', async (req, res) => {
       } else{
         console.log('antes de crear');
         // name,lastname,email,password,tipouser
-        const newEgresado = new Egresado({name, lastname,email,password,dni,country,tipouser});
+        const newEgresado = new Egresado({name, lastname,email,password,dni,country,city,interests,age,gender,tipouser});
         console.log('despues de crear');
         newEgresado.password = await newEgresado.encryptPassword(password); //se remplaza la contrase por la encriptada
         console.log('despues de encryptar'); 
@@ -72,4 +89,13 @@ router.post('/egresados/signup', async (req, res) => {
     
     } 
 });
+
+router.get('/egresados/preregistro', (req, res) => {
+  res.render('egresados/preregistro');
+});
+
+router.post('/egresados/preregistro', (req, res) => {
+  res.send('Aqui va la validación en la bd que efectivamente es un egresado y se le envia un correo con el link de registro');
+});
+
 module.exports = router;

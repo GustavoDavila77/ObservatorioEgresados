@@ -84,7 +84,7 @@ router.get('/superuser/crearadmin', isAuthenticated, async (req, res) => {
 });
 
 router.post('/superuser/crearadmin', async (req, res) => {
-  const { name, lastname, dni, email, address, tipouser, country} = req.body;
+  const { name, lastname, dni, email, address, tipouser, country, city} = req.body;
   const adminhabilidado = true;
   const password = generar();
   let errors = []; 
@@ -128,7 +128,7 @@ router.post('/superuser/crearadmin', async (req, res) => {
     errors.push({text: 'Please Insert your tipo de user'});
   }
   if(errors.length > 0){
-    res.render('superuser/crearadmin', { name, lastname, dni, email, address, country});
+    res.render('superuser/crearadmin', { name, lastname, dni, email, address});
   } else {
     const emailUser = await Admins.findOne({email: email});
     if(emailUser) {
@@ -142,13 +142,13 @@ router.post('/superuser/crearadmin', async (req, res) => {
             console.log('Email enviado: ' + info.response);
         }
       });
-      const newUser = new Admins({name,lastname,dni,email, address, country, tipouser, password, adminhabilidado});
+      const newUser = new Admins({name,lastname,dni,email, address, country, city, tipouser, password, adminhabilidado});
       newUser.password = await newUser.encryptPassword(password); //se remplaza la contrase por la encriptada
       console.log('pase encryptación');
       await newUser.save();
       console.log('Te has registrado');
       req.flash('success_msg', 'You are registered.');
-      res.redirect('/superuser/home');
+      res.redirect('/');
     }
         
   }

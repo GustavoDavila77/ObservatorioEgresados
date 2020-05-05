@@ -10,7 +10,8 @@ const UserSchema = new Schema({
         dni: {type: String, require: true},
         email: {type: String, required: true},
         address: {type: String, required: true},
-        country: {type: Object, required: true},
+        country: {type: String, required: true},
+        city: {type: String, required: true},
         password: {type:String, required: true},
         tipouser: {type: String, required: true},
         adminhabilitado: {type: Boolean, default: true}

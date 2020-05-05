@@ -1,7 +1,7 @@
-
-<div class="row text-center">
+<!-- Registro total de egresados-->
+<div class="row text-center mt-5">
   <div class="col-lg-4 offset-lg-4">
-      <h4 class="mb-2"><STRONg>REGISTRATE</STRONg></h4>
+      <h4 class="mb-2"><STRONg>REGÍSTRATE</STRONg></h4>
       <h6 class="mb-4">Debes ingresar todos los datos</h6>
         <form action="/egresados/signup" method="POST">
           <div class="form-group">
@@ -11,7 +11,7 @@
             <input type="text" class="form-control" name="lastname" placeholder="Apellido" value="{{lastname}}">
           </div>
           <div class="form-group">
-            <input type="text" class="form-control" name="dni" placeholder="Cédula" value="{{dni}}">
+            <input type="number" class="form-control" name="dni" placeholder="Cédula" value="{{dni}}">
           </div>
           <div class="form-group">
             <input type="email" class="form-control" name="email" placeholder="Correo" value="{{email}}">
@@ -24,21 +24,47 @@
           </div>
         
           <div class="form-group">
-                <select class="form-control form-control-sm" name="country">
-                    <option selected value="null">Pais</option>   
-                    <option value="Colombia">Colombia</option>
-                    <option value="Mexico">Mex</option>   
-                </select>
+            <select class="form-control form-control-sm" name="country">
+                <option selected value="null">Pais</option>   
+                <option value="Colombia">Colombia</option>
+            </select>
           </div> 
 
-          <!--
           <div class="form-group">
-                <select class="form-control form-control-sm" name="city">
-                    <option selected value="null">Ciudad</option>   
-                    <option value="Colombia">Bogota</option>
-                    <option value="Mexico">Medellin</option>
-                </select>
-          </div> -->
+            <select class="form-control form-control-sm" name="city">
+                <option selected value="null">Ciudad</option>   
+                <option value="Colombia">Bogota</option>
+                <option value="Medellin">Medellin</option>
+                <option value="Cali">Cali</option>
+                <option value="Pereira">Pereira</option>
+                <option value="Barranquilla">Barranquilla</option>         
+            </select>
+          </div>
+
+           <div class="form-group">
+            <select class="form-control form-control-sm" name="interests">
+                <option selected value="null">Intereses</option>   
+                <option value="Colombia">Deporte</option>
+                <option value="Medellin">Cultura</option>
+                <option value="Cali">Conciertos</option>     
+            </select>
+          </div>
+          <div class="form-group">
+            <input type="number" class="form-control" name="age" placeholder="Edad" value="{{age}}">
+          </div>
+          <div class="form-group">
+            <select class="form-control form-control-sm" name="gender">
+                <option selected value="null">Genero</option>   
+                <option value="Colombia">Femenino</option>
+                <option value="Medellin">Masculino</option>
+                <option value="Cali">Otro</option>     
+            </select>
+          </div>
+
+          <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" name="datause" id="exampleCheck1" required>
+            <label class="form-check-label" for="exampleCheck1">Acepto el uso de mis datos</label>
+          </div>
         <div class="form-group mt-5">
             <button class="btn btn-enter">
                 Registrarse 
