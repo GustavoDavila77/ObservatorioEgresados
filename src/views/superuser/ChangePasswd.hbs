@@ -1,0 +1,27 @@
+ <div class="container">
+ <div class="row">
+  <div class="col-md-4 mx-auto">
+    <div class="card">
+      <div class="card-header">
+        Cambio de contraseña
+      </div>
+      <div class="card-body">
+        <form action="/superuser/setpass" method="POST">
+          <div class="form-group">
+            <input type="email" class="form-control" name="email" placeholder="Email" value="{{email}}">
+          </div>
+          <div class="form-group">
+            <input type="password" class="form-control" name="password" placeholder="Password" value="{{password}}">
+          </div>
+          <div class="form-group">
+            <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password">
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">
+            Cambiar clave 
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+ </div>
