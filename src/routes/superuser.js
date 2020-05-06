@@ -15,6 +15,44 @@ function generar(){
   return contraseña;
 }
 
+router.get('/superuser/setpass', (req, res) => {
+  res.render('superuser/ChangePasswd');
+});
+
+router.post('/superuser/setpass', async (req, res) => {
+  console.log(req.body);
+  //res.send('ok');
+  const {email, password, confirm_password} = req.body;
+  const superhabilidado = true;
+  let errors = []; 
+  
+  if(email.length <= 0){
+    errors.push({text: 'Please Insert your email'});
+  }
+  if(password != confirm_password) {
+    errors.push({text: 'Passwords do not match.'});
+  }
+  if(password.length < 4) {
+    errors.push({text: 'Passwords must be at least 4 characters.'});
+  }
+  if(errors.length > 0){
+    res.render('superuser/ChangePasswd', {email, password, confirm_password});
+  } else {
+    const emailUser = await SuperUser.findOne({email: email});
+    if(emailUser) {
+      await emailUser.updateOne({password: await emailUser.encryptPassword(password)});
+      await emailUser.save();
+      console.log('Has cambiado tu clave');
+      req.flash('success_msg', 'Cambio de clave exitoso. logeese nuevamente');
+      res.redirect('/');
+    } else{
+      req.flash('error_msg', 'El correo no pertenece a ningun super usuario');
+      res.redirect('/superuser/ChangePasswd');
+    }
+        
+  } 
+});
+
 router.get('/superuser/secret_signup', (req, res) => {
     res.render('superuser/secretSignup');
 });

@@ -2,8 +2,9 @@
 const express = require('express');
 const router = express.Router(); //para creación de rutas
 
-//const SuperUser = require('../models/superuser');
+const BDvalidation = require('../models/BDValidation');
 const Egresado = require('../models/Egresado');
+const nodemailer = require('nodemailer');
 
 const { isAuthenticated } = require('../helpers/auth');
 
@@ -21,7 +22,8 @@ router.post('/egresados/signup', async (req, res) => {
     console.log(req.body);
     //res.send('ok');
     const { name, lastname, dni, email, password, confirm_password, country, city, interests, age, gender} = req.body;
-  
+    const getValidation = await BDvalidation.findOne({email: email});
+    const dnibd = getValidation.dni;
     const tipouser = 'egresado';
     let errors = []; 
     
@@ -57,9 +59,8 @@ router.post('/egresados/signup', async (req, res) => {
     }
     if(age <= 14 ){
       errors.push({text: 'Incorrect age'});
-    }
-    
-    if(gender == 'null'){
+    }   
+    if(gender == 'null'){ 
       errors.push({text: 'Please Insert your gender'});
     }
     if(errors.length > 0){ 
@@ -67,7 +68,7 @@ router.post('/egresados/signup', async (req, res) => {
     } else {
         //res.send('fine');
       // Look for email coincidence - hay un user registrado con el mismo correo?
-      //let pruebase = SuperUser.find();
+      //let pruebase = Egresado.find();
       //console.log(pruebase);
       const useregresado = await Egresado.findOne({email: email});
       //console.log(dnisearch);
@@ -75,18 +76,27 @@ router.post('/egresados/signup', async (req, res) => {
         req.flash('error_msg', 'El email ya esta en uso');
         res.redirect('/egresados/signup');
       } else{
-        console.log('antes de crear');
-        // name,lastname,email,password,tipouser
-        const newEgresado = new Egresado({name, lastname,email,password,dni,country,city,interests,age,gender,tipouser});
-        console.log('despues de crear');
-        newEgresado.password = await newEgresado.encryptPassword(password); //se remplaza la contrase por la encriptada
-        console.log('despues de encryptar'); 
-        await newEgresado.save();  
-        console.log('Te has registrado!');
-        req.flash('success_msg', 'You are registered.');
-        res.redirect('/');      
-      }       
-    
+        if(getValidation){
+          if(String(dni) == String(dnibd)){
+            console.log('antes de crear');
+            // name,lastname,email,password,tipouser
+            const newEgresado = new Egresado({name, lastname,email,password,dni,country,city,interests,age,gender,tipouser});
+            console.log('despues de crear');
+            newEgresado.password = await newEgresado.encryptPassword(password); //se remplaza la contrase por la encriptada
+            console.log('despues de encryptar'); 
+            await newEgresado.save();  
+            console.log('Te has registrado!');
+            req.flash('success_msg', 'You are registered.');
+            res.redirect('/');    
+          }else{
+            req.flash('error_msg', 'El DNI no coincide con el de la base de datos de la UTP');
+            res.redirect('/egresados/signup');
+          }
+        }else{
+          req.flash('error_msg', 'El correo es incorrecto intente nuevamente');
+          res.redirect('/egresados/preregistro');
+        }  
+      }          
     } 
 });
 
@@ -94,8 +104,45 @@ router.get('/egresados/preregistro', (req, res) => {
   res.render('egresados/preregistro');
 });
 
-router.post('/egresados/preregistro', (req, res) => {
-  res.send('Aqui va la validación en la bd que efectivamente es un egresado y se le envia un correo con el link de registro');
+router.post('/egresados/preregistro', async (req, res) => {
+    const {dni, email } = req.body;
+    const getValidation = await BDvalidation.findOne({email: email});
+    const dnibd = getValidation.dni;
+    contentHTML = '<h2>Validacion exitosa, puede continuar con su registro</h2><ul><li>Registro:  <a href= "http://localhost:5000/egresados/signup">Para registrarte clickea sobre este vinculo</a> </li></ul>';
+    //Creamos el objeto de transporte
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        host: 'smtp.gmail.com',
+        port: 587,
+        auth: {
+                user: 'projectslabegresados@gmail.com',
+                pass: 'Niko_orozco'
+            }
+    });
+    var mailOptions = {
+        from: 'projectslabegresados@gmail.com',
+        to: ' '+email+' ',
+        subject: 'ingrese a el siguiente enlace para completar su registro',
+        html: contentHTML
+    };
+    if(getValidation) {
+        if(String(dni) == String(dnibd)){
+            await transporter.sendMail(mailOptions, function(error, info){
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log('Email enviado: ' + info.response);
+                }
+            });
+            res.redirect('/');
+        }else{
+            req.flash('error_msg', 'El DNI es incorrecto intente nuevamente');
+            res.redirect('/egresados/preregistro');
+        }
+    }else{
+        req.flash('error_msg', 'El correo es incorrecto intente nuevamente');
+        res.redirect('/egresados/preregistro');
+    }
 });
 
 module.exports = router;
