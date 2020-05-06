@@ -3,7 +3,7 @@
 const express = require('express');
 const router = express.Router(); //para creación de rutas
 
-const SuperUser = require('../models/superuser');
+const SuperUser = require('../models/SuperUser');
 const Admins = require('../models/Administradores');
 const nodemailer = require('nodemailer');
 const { isAuthenticated } = require('../helpers/auth');
@@ -40,7 +40,7 @@ router.post('/superuser/setpass', async (req, res) => {
       await emailUser.updateOne({password: await emailUser.encryptPassword(password)});
       await emailUser.save();
       console.log('Has cambiado tu clave');
-      req.flash('success_msg', 'Cambio de clave exitoso. logeese nuevamente');
+      req.flash('success_msg', 'Cambio de clave exitoso. ingrese nuevamente');
       res.redirect('/');
     } else{
       req.flash('error_msg', 'El correo no pertenece a ningun super usuario');

@@ -1,7 +1,7 @@
 /// Aqui estan las rutas para autenticarse
 const express = require('express');
 const router = express.Router(); //para creación de rutas
-const SuperUser = require('../models/superuser');
+const SuperUser = require('../models/SuperUser');
 const nodemailer = require('nodemailer');
 
 
@@ -37,7 +37,7 @@ router.post('/forgotpassword/getdata', async (req, res) =>  {
     var mailOptions = {
         from: 'projectslabegresados@gmail.com',
         to: ' '+email+' ',
-        subject: 'Recuperar contraseña',
+        subject: 'Cambio de contraseña',
         html: contentHTML
     };
 
