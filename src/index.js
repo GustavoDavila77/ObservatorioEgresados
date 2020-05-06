@@ -64,7 +64,7 @@ app.use(require('./routes/superuser'));
 app.use(require('./routes/forgotpassword'));
 app.use(require('./routes/egresados'));
 app.use(require('./routes/administradores'));  
-
+ 
 //////// Static Files
 app.use(express.static(path.join(__dirname, 'public')));
 

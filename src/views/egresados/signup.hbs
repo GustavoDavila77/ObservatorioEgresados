@@ -5,33 +5,33 @@
       <h6 class="mb-4">Debes ingresar todos los datos</h6>
         <form action="/egresados/signup" method="POST">
           <div class="form-group">
-            <input type="text" class="form-control" name="name" placeholder="Nombre" value="{{name}}">
+            <input type="text" class="form-control" name="name" placeholder="Nombre" value="{{name}}" required>
           </div>
           <div class="form-group">
-            <input type="text" class="form-control" name="lastname" placeholder="Apellido" value="{{lastname}}">
+            <input type="text" class="form-control" name="lastname" placeholder="Apellido" value="{{lastname}}" required>
           </div>
           <div class="form-group">
-            <input type="number" class="form-control" name="dni" placeholder="Cédula" value="{{dni}}">
+            <input type="number" class="form-control" name="dni" placeholder="Cédula" value="{{dni}}" required>
           </div>
           <div class="form-group">
-            <input type="email" class="form-control" name="email" placeholder="Correo" value="{{email}}">
+            <input type="email" class="form-control" name="email" placeholder="Correo" value="{{email}}" required>
           </div>
           <div class="form-group">
-            <input type="password" class="form-control" name="password" placeholder="Password" value="{{password}}">
+            <input type="password" class="form-control" name="password" placeholder="Password" value="{{password}}" required>
           </div>
           <div class="form-group">
-            <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password">
+            <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password" required>
           </div>
         
           <div class="form-group">
-            <select class="form-control form-control-sm" name="country">
+            <select class="form-control form-control-sm" name="country" required>
                 <option selected value="null">Pais</option>   
                 <option value="Colombia">Colombia</option>
             </select>
           </div> 
 
           <div class="form-group">
-            <select class="form-control form-control-sm" name="city">
+            <select class="form-control form-control-sm" name="city" required>
                 <option selected value="null">Ciudad</option>   
                 <option value="Colombia">Bogota</option>
                 <option value="Medellin">Medellin</option>
@@ -42,7 +42,7 @@
           </div>
 
            <div class="form-group">
-            <select class="form-control form-control-sm" name="interests">
+            <select class="form-control form-control-sm" name="interests" required>
                 <option selected value="null">Intereses</option>   
                 <option value="Colombia">Deporte</option>
                 <option value="Medellin">Cultura</option>
@@ -50,10 +50,10 @@
             </select>
           </div>
           <div class="form-group">
-            <input type="number" class="form-control" name="age" placeholder="Edad" value="{{age}}">
+            <input type="number" class="form-control" name="age" placeholder="Edad" value="{{age}}" required>
           </div>
           <div class="form-group">
-            <select class="form-control form-control-sm" name="gender">
+            <select class="form-control form-control-sm" name="gender" required>
                 <option selected value="null">Genero</option>   
                 <option value="Colombia">Femenino</option>
                 <option value="Medellin">Masculino</option>

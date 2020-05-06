@@ -37,7 +37,7 @@ router.post('/forgotpassword/getdata', async (req, res) =>  {
     var mailOptions = {
         from: 'projectslabegresados@gmail.com',
         to: ' '+email+' ',
-        subject: 'Recuperar contraseña',
+        subject: 'Cambio de contraseña',
         html: contentHTML
     };
 
