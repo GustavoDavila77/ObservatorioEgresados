@@ -20,10 +20,7 @@ router.get('/superuser/setpass', (req, res) => {
 });
 
 router.post('/superuser/setpass', async (req, res) => {
-  console.log(req.body);
-  //res.send('ok');
   const {email, password, confirm_password} = req.body;
-  const superhabilidado = true;
   let errors = []; 
   
   if(email.length <= 0){
@@ -59,12 +56,9 @@ router.get('/superuser/secret_signup', (req, res) => {
 
 //aqui va el post del registro
 router.post('/superuser/secret_signup', async (req, res) => {
-    console.log(req.body);
-    //res.send('ok');
     const { name, lastname, dni, email, password, confirm_password, tipouser} = req.body;
     const superhabilidado = true;
     let errors = []; 
-    
     
     if(name.length <= 0){
         errors.push({text: 'Please Insert your Name'});
@@ -72,11 +66,9 @@ router.post('/superuser/secret_signup', async (req, res) => {
     if(lastname.length <= 0){
         errors.push({text: 'Please Insert your LastName'});
     }
-
     if(dni.length <= 0){
       errors.push({text: 'Please Insert your DNI'});
-  }
-
+    }
     if(email.length <= 0){
       errors.push({text: 'Please Insert your email'});
     }
@@ -93,9 +85,6 @@ router.post('/superuser/secret_signup', async (req, res) => {
     if(errors.length > 0){
       res.render('superuser/secretSignup', {errors, lastname, name, dni, email, password, confirm_password, tipouser});
     } else {
-      // Look for email coincidence - hay un user registrado con el mismo correo?
-      //let pruebase = SuperUser.find();
-      //console.log(pruebase);
       const emailUser = await SuperUser.findOne({email: email});
       if(emailUser) {
         req.flash('error_msg', 'El correo ya esta en uso');
