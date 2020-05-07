@@ -16,6 +16,41 @@ router.get('/egresados/home', (req, res) => {
   //res.send('entre al home egre');
   res.render('egresados/home');
 });
+
+router.get('/egresados/setpass', (req, res) => {
+  res.render('egresados/ChangePasswd');
+});
+
+router.post('/egresados/setpass', async (req, res) => {
+  const {email, password, confirm_password} = req.body;
+  let errors = []; 
+  
+  if(email.length <= 0){
+    errors.push({text: 'Please Insert your email'});
+  }
+  if(password != confirm_password) {
+    errors.push({text: 'Passwords do not match.'});
+  }
+  if(password.length < 4) {
+    errors.push({text: 'Passwords must be at least 4 characters.'});
+  }
+  if(errors.length > 0){
+    res.render('egresados/ChangePasswd', {email, password, confirm_password});
+  } else {
+    const emailUser = await Egresado.findOne({email: email});
+    if(emailUser) {
+      await emailUser.updateOne({password: await emailUser.encryptPassword(password)});
+      await emailUser.save();
+      console.log('Has cambiado tu clave');
+      req.flash('success_msg', 'Cambio de clave exitoso. ingrese nuevamente');
+      res.redirect('/egresados/home');
+    } else{
+      req.flash('error_msg', 'El correo no pertenece a ningun super usuario');
+      res.redirect('/egresados/ChangePasswd');
+    }
+        
+  } 
+});
  
 // TODO Hacer validación que el user este en la base de datos de la utp, PERO que no este en la colección de egresados
 router.post('/egresados/signup', async (req, res) => {
@@ -24,7 +59,8 @@ router.post('/egresados/signup', async (req, res) => {
     //res.send('ok');
     const { name, lastname, dni, email, password, confirm_password, country, city, interests, age, gender} = req.body;
     const getValidation = await BDvalidation.findOne({email: email});
-    const dnibd = getValidation.dni;
+    console.log(getValidation);
+    //const dnibd = getValidation.dni;
     const tipouser = 'egresado';
     let errors = []; 
      
@@ -74,8 +110,10 @@ router.post('/egresados/signup', async (req, res) => {
       const useregresado = await Egresado.findOne({email: email});
       //console.log(dnisearch);
       if(useregresado) {
-        req.flash('error_msg', 'El email ya esta en uso');
-        res.redirect('/egresados/signup');
+        if(useregresado.dni == dni){
+          req.flash('error_msg', 'El email o el DNI ya esta en uso');
+          res.redirect('/egresados/signup');
+        }     
       } else{
         if(getValidation){
           if(String(dni) == String(dnibd)){
