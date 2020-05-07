@@ -13,8 +13,19 @@
         </div>
         
     </div>
+    <div class="card-body">
+        <form action="/superuser/consultaradmins" method="POST">
+            <div class="form-group">
+                <input type="text" class="form-control" name="name" placeholder="Buscar" value="{{name}}" autofocus required>
+            </div>
+          <button type="submit" class="btn btn-primary btn-block">
+            Buscar
+          </button>
+        </form>
+    </div>
     {{#each admins}}
         <div class="accordion mt-2" id="i{{tipouser}}">
+        
             <div class="card">
                     <h2 class="mb-0">
                         <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#{{tipouser}}" aria-expanded="true" aria-controls="{{tipouser}}">

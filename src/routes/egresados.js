@@ -113,6 +113,9 @@ router.post('/egresados/signup', async (req, res) => {
         if(useregresado.dni == dni){
           req.flash('error_msg', 'El email o el DNI ya esta en uso');
           res.redirect('/egresados/signup');
+        }else{
+          req.flash('error_msg', 'El DNI ya esta en uso o no existe en la base de datos de la utp');
+          res.redirect('/egresados/signup');
         }     
       } else{
         if(getValidation){
@@ -147,7 +150,7 @@ router.post('/egresados/preregistro', async (req, res) => {
     const {dni, email } = req.body;
     const getValidation = await BDvalidation.findOne({email: email});
     const dnibd = getValidation.dni;
-    contentHTML = '<h2>Validacion exitosa, puede continuar con su registro</h2><ul><li>Registro:  <a href= "http://localhost:5000/egresados/signup">Para registrarte clickea sobre este vinculo</a> </li></ul>';
+    contentHTML = '<h2>Validacion exitosa, puede continuar con su registro</h2><ul><li>Registro:  <a href= "https://quiet-eyrie-58675.herokuapp.com/egresados/signup">Para registrarte clickea sobre este vinculo</a> </li></ul>';
     //Creamos el objeto de transporte
     var transporter = nodemailer.createTransport({
         service: 'gmail',
