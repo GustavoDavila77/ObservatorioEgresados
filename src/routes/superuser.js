@@ -15,6 +15,13 @@ function generar(){
   return contraseña;
 }
 
+function generarid(){
+  var alfabeto = "abcdefghijkmnpqrtuvwxyzABCDEFGHIJKLMNPQRTUVWXYZ";
+  var contra = "";
+  for (i=0; i<8; i++) contra += alfabeto.charAt(Math.floor(Math.random()*alfabeto.length));
+  return contra;
+}
+
 router.get('/superuser/setpass', (req, res) => {
   res.render('superuser/ChangePasswd');
 });
@@ -191,5 +198,24 @@ router.post('/superuser/crearadmin', async (req, res) => {
         
   }
   console.log(req.body);
+});
+
+router.get('/superuser/consultaradmins', /*isAuthenticated,*/ async (req, res) => {
+  let admins = await Admins.find({});
+  //console.log(admins);
+  //console.log('despues query');
+  
+  if(admins){
+    console.log('lo encontre');
+    //console.log(admins);
+  }
+  else{
+    console.log('algo falla');
+  }
+  admins.forEach(admin => {
+    admin.tipouser = generarid();
+  });
+  console.log(admins);
+  res.render('admin/adminlist',{admins}); 
 });
 module.exports = router;
