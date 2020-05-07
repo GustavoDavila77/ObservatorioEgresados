@@ -191,20 +191,39 @@ router.post('/superuser/crearadmin', async (req, res) => {
 
 router.get('/superuser/consultaradmins', /*isAuthenticated,*/ async (req, res) => {
   let admins = await Admins.find({});
-  //console.log(admins);
-  //console.log('despues query');
-  
-  if(admins){
-    console.log('lo encontre');
-    //console.log(admins);
-  }
-  else{
-    console.log('algo falla');
-  }
   admins.forEach(admin => {
     admin.tipouser = generarid();
   });
-  console.log(admins);
   res.render('admin/adminlist',{admins}); 
 });
+
+
+router.post('/superuser/consultaradmins', async (req, res) => {
+  const {name} = req.body;
+  var existen = 0;
+  let admins = await Admins.find({name: name});
+  let Alladmins = await Admins.find({});
+  Alladmins.forEach(Alladmin => {
+    Alladmin.tipouser = generarid();
+  });
+  admins.forEach(admin => {
+    admin.tipouser = generarid();
+    Alladmins.forEach(Alladmin => {
+      if(admin.name == Alladmin.name){
+        existen = existen + 1;
+      }
+    });
+  });
+  console.log('aqui funciona');
+  console.log(admins);
+  if(existen > 0){
+    res.render('admin/adminlist',{admins});
+  }
+  else{
+    console.log('no encontrado');
+    req.flash('error_msg', 'Usuario no encontrado');
+    res.redirect('/superuser/consultaradmins');
+  }
+});
+
 module.exports = router;
