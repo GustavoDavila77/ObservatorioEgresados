@@ -66,7 +66,7 @@ app.use(require('./routes/egresados'));
 app.use(require('./routes/administradores'));  
  
 //////// Static Files
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/static', express.static(path.join(__dirname, 'public')));
 
 //leer localhost de variables y puerto
 const host = process.env.HOST || '0.0.0.0'; //heroku cambia el host 0.0.0.0

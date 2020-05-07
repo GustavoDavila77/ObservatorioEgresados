@@ -1,0 +1,56 @@
+{{> navigationsuperuser}}
+
+<div class="container">
+    <div class="row text-center mt-5">
+        <div class="col">
+            <h4>Lista de administradores</h4>
+        </div>
+        
+    </div>
+    {{#each admins}}
+        <div class="accordion mt-2" id="i{{tipouser}}">
+            <div class="card">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#{{tipouser}}" aria-expanded="true" aria-controls="{{tipouser}}">
+                        {{name}} {{lastname}}
+                        </button>
+                    </h2>
+
+                <div id="{{tipouser}}" class="collapse" aria-labelledby="i{{tipouser}}" data-parent="#i{{tipouser}}">
+                <div class="card-body">
+                    <div class="card-header">
+                        cédula: {{dni}}
+                    </div>
+                    
+                    <div class="card-header">
+                        correo: {{email}}
+                    </div>
+                    <div class="card-header">
+                        dirección: {{address}}
+                    </div>
+                    <div class="card-header">
+                        pais: {{country}}
+                    </div>
+                    <div class="card-header">
+                        ciudad: {{city}}
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+
+    {{/each}}
+
+    <div class="form-group text-center mt-5">
+        <a href="/superuser/home">Atras</a>
+    </div>  
+</div>
+<!-- 
+<div>
+    {{#each admins}}
+        <p>nombre: {{name}}</p>
+        <p>apellido: {{lastname}}</p>
+    {{/each}}
+</div>
+--> 
+
