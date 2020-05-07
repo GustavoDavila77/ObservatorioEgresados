@@ -118,7 +118,8 @@ router.get('/superuser/crearadmin', isAuthenticated, async (req, res) => {
 });
 
 router.post('/superuser/crearadmin', async (req, res) => {
-  const { name, lastname, dni, email, address, tipouser, country, city} = req.body;
+  const { name, lastname, dni, email, address, country, city} = req.body;
+  const tipouser = 'administrador';
   const adminhabilidado = true;
   const password = generar();
   let errors = []; 
@@ -157,9 +158,6 @@ router.post('/superuser/crearadmin', async (req, res) => {
   }
   if(address <= 0) {
     errors.push({text: 'Please Insert your address.'});
-  }
-  if(tipouser.length <= 0){
-    errors.push({text: 'Please Insert your tipo de user'});
   }
   if(errors.length > 0){
     res.render('superuser/crearadmin', { name, lastname, dni, email, address});
