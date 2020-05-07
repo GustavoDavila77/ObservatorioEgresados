@@ -49,7 +49,7 @@ router.post('/superuser/setpass', async (req, res) => {
       console.log('Has cambiado tu clave');
       req.flash('success_msg', 'Cambio de clave exitoso. ingrese nuevamente');
       res.redirect('/');
-    } else{
+    } else{ 
       req.flash('error_msg', 'El correo no pertenece a ningun super usuario');
       res.redirect('/superuser/ChangePasswd');
     }

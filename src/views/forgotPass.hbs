@@ -1,13 +1,15 @@
-<div class="row text-center">
+{{> navigation}}
+
+<div class="row text-center mt-5">
     <div class="col">
-        <h1 class="mb-5"><strong>Cambio de contraseña</strong> </h1>
+        <h1 class="h4 mb-3"><strong>Cambio de contraseña</strong> </h1>
     </div>
 </div>
 
 <!-- formulario de Cambio de contraseña--> 
 <div class="row mt-4 text-center">
     <div class="col-lg-4 offset-lg-4">
-        <h5 class="mb-4"><STRONg>Ingrese el correo con el que inicio sesión</STRONg></h5>
+        <h5 class="h6 mb-4">Ingrese el correo con el que inicio sesión</h5>
         <form action="/forgotpassword/getdata" method="POST"> 
             <div class="form-group">
                 <input type="email" name="email" class="form-control" d="Email1" aria-describedby="emailHelp" placeholder="Correo electronico"

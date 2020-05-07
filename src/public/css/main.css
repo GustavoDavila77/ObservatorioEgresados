@@ -30,3 +30,41 @@ p {
 .btn-menu-super:hover {
     color: white !important;
 }
+.homesuper {
+    margin-bottom: 15%;
+}
+
+.adminlist {
+    margin-top: 6%;
+    margin-bottom: 8%;
+}
+
+.homegresado{
+    margin-bottom: 30%;
+}
+
+.homeadmin {
+    margin-bottom: 30%;
+}
+
+.preregistro {
+    margin-bottom: 10%;
+}
+#footer {
+    margin-top: 3%;
+    background: #00365D !important;
+}
+
+#footer p{
+    color: aliceblue;
+}
+
+#footer h2{
+    color: aliceblue;
+}
+
+#footer .h6{
+    /*height: 25px;*/  
+    color: aliceblue;
+    /*padding-bottom: 1px;*/
+}
