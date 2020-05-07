@@ -60,7 +60,7 @@ router.post('/egresados/signup', async (req, res) => {
     const { name, lastname, dni, email, password, confirm_password, country, city, interests, age, gender} = req.body;
     const getValidation = await BDvalidation.findOne({email: email});
     console.log(getValidation);
-    //const dnibd = getValidation.dni;
+    const dnibd = getValidation.dni;
     const tipouser = 'egresado';
     let errors = []; 
      
@@ -149,7 +149,7 @@ router.get('/egresados/preregistro', (req, res) => {
 router.post('/egresados/preregistro', async (req, res) => {
     const {dni, email } = req.body;
     const getValidation = await BDvalidation.findOne({email: email});
-    const dnibd = getValidation.dni;
+    const dnibd = (getValidation == null) ? "33" : getValidation.dni;
     contentHTML = '<h2>Validacion exitosa, puede continuar con su registro</h2><ul><li>Registro:  <a href= "https://quiet-eyrie-58675.herokuapp.com/egresados/signup">Para registrarte clickea sobre este vinculo</a> </li></ul>';
     //Creamos el objeto de transporte
     var transporter = nodemailer.createTransport({
