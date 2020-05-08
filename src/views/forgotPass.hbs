@@ -1,41 +1,43 @@
 {{> navigation}}
 
-<div class="row text-center mt-5">
-    <div class="col">
-        <h1 class="h4 mb-3"><strong>Cambio de contraseña</strong> </h1>
-    </div>
-</div>
+<div class="forgotpass">
 
-<!-- formulario de Cambio de contraseña--> 
-<div class="row mt-4 text-center">
-    <div class="col-lg-4 offset-lg-4">
-        <h5 class="h6 mb-4">Ingrese el correo con el que inicio sesión</h5>
-        <form action="/forgotpassword/getdata" method="POST"> 
-            <div class="form-group">
-                <input type="email" name="email" class="form-control" d="Email1" aria-describedby="emailHelp" placeholder="Correo electronico"
-                autofocus>
+    <div class="container">
+        <div class="row text-center mt-5">
+            <div class="col">
+                <h1 class="titles h4 mb-3"><strong>Cambio de contraseña</strong> </h1>
             </div>
-            <div class="form-group">
-                <input type="text" name="cedula" class="form-control" id="Cedula" placeholder="Cedula">
-            </div>
-            <div class="form-group mt-4">
-                <button type="submit" class="btn btn-enter">Enviar</button>
-            </div>
-            
-            <div class="form-group">
-                <a href="/">Atras</a>
-            </div>
-            
-        </form>
-    </div>
-</div>
+        </div>
 
-<div class="row text-center">
-    <div class="col">
-        <p>Se le enviara la nueva contraseña al Correo</p>
-    </div>
-</div>
+        <!-- formulario de Cambio de contraseña--> 
+        <div class="row mt-4 text-center">
+            <div class="col-8 offset-2 col-md-4 offset-md-4">
+                <h5 class="h6 mb-4">Ingrese el correo con el que inicia sesión</h5>
+                <form action="/forgotpassword/getdata" method="POST"> 
+                    <div class="form-group">
+                        <input type="email" name="email" class="form-control" d="Email1" aria-describedby="emailHelp" placeholder="Correo electronico"
+                        autofocus>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="cedula" class="form-control" id="Cedula" placeholder="Cedula">
+                    </div>
+                    <div class="form-group mt-4">
+                        <button type="submit" class="btn btn-enter">Enviar</button>
+                    </div>
+                    
+                    <div class="form-group">
+                        <a href="/">Atras</a>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
 
-<div class="row">
-    
+        <div class="row text-center">
+            <div class="col">
+                <p>Se le enviara la nueva contraseña al Correo</p>
+            </div>
+        </div>
+        
+    </div>
 </div>

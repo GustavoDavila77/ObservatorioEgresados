@@ -27,6 +27,12 @@ p {
     border-radius: 200px 200px 200px 200px;
 }
 
+.btn-changepassword {
+    color: white;
+    background: #8FC413;
+    width: 100%;
+}
+
 .btn-menu-super:hover {
     color: white !important;
 }
@@ -50,6 +56,10 @@ p {
 .preregistro {
     margin-bottom: 10%;
 }
+
+.changepassword{
+    margin-bottom: 10%;
+}
 #footer {
     margin-top: 3%;
     background: #00365D !important;
@@ -68,3 +78,29 @@ p {
     color: aliceblue;
     /*padding-bottom: 1px;*/
 }
+
+/*Small devices*/
+
+@media (max-width: 576px){
+    
+    .inicio {
+        font-size: 15px;
+    }
+    .homesuper {
+        font-size: 15px;
+    }
+    .registroegresados {
+        font-size: 15px;
+    }
+    .preregistro {
+        font-size: 15px;
+    }
+    .forgotpass {
+        font-size: 15px;
+    }
+    .titles {
+        font-size: 22px;
+    }
+     
+}
+

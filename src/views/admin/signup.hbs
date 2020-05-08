@@ -1,60 +1,64 @@
 <!-- Registro de adminstradores por parte del superusuario --> 
-
-<div class="row mt-3 text-center">
-    <div class="col-lg-4 offset-lg-4">
-        <h4 class="mb-4"><STRONg>Registro de Administradores</STRONg></h4>
-        <p>Ingrese todos los datos de los administradores</p>
-        <form action="/superuser/crearadmin" method="POST">
-            <div class="form-group">
-                <input type="text" class="form-control" name="name" placeholder="Nombre" value="{{name}}" autofocus required>
+{{> navigationsuperuser}}
+<div class="registroegresados">
+    <div class="container">
+        <div class="row mt-5 text-center">
+            <div class="col-8 offset-2 col-lg-4 offset-lg-4">
+                <h4 class="titles mb-3"><STRONg>Registro de Administradores</STRONg></h4>
+                <p>Todos los datos son obligatorios</p>
+                <form action="/superuser/crearadmin" method="POST">
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="name" placeholder="Nombre" value="{{name}}" autofocus required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="lastname" placeholder="Apellido" value="{{lastname}}" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="number" class="form-control" name="dni" placeholder="Cédula" value="{{dni}}" required>
+                    </div> 
+                        <div class="form-group">
+                            <input type="email" name="email" class="form-control" d="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Correo electronico" required>
+                        </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="address" placeholder="Dirección" value="{{address}}" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="number" class="form-control" name="telefono" placeholder="Telefono" value="{{lastname}}" required>
+                    </div>
+                    <!-- TODO cargar de una base de datos todos los paises y ciudades-->
+                    <div class="form-group">
+                            <select class="form-control form-control-sm" name="country">
+                                <option selected value="null">Pais</option>   
+                                <option value="Colombia">Colombia</option>
+                                <option value="Mexico">Mexico</option>
+                                <option value="España">España</option>
+                                <option value="Canada">Canada</option>
+                                <option value="Australia">Australia</option>         
+                            </select>
+                    </div>
+                    <div class="form-group">
+                            <select class="form-control form-control-sm" name="city">
+                                <option selected value="null">Ciudad</option>   
+                                <option value="Colombia">Bogota</option>
+                                <option value="Medellin">Medellin</option>
+                                <option value="Cali">Cali</option>
+                                <option value="Pereira">Pereira</option>
+                                <option value="Barranquilla">Barranquilla</option>         
+                            </select>
+                    </div>
+                    <div class="form-group">
+                        
+                        <p><strong>Nota:</strong> La contraseña se generarea automaticamente y será enviada al futuro administrador</p>
+                    </div>
+                    <div class="form-group mt-4">
+                        <button type="submit" class="btn btn-enter">Registrar</button>
+                    </div>
+                    
+                    <div class="form-group">
+                        <a href="/superuser/home">Atras</a>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <input type="text" class="form-control" name="lastname" placeholder="Apellido" value="{{lastname}}" required>
-            </div>
-            <div class="form-group">
-                <input type="number" class="form-control" name="dni" placeholder="Cédula" value="{{dni}}" required>
-            </div> 
-                <div class="form-group">
-                    <input type="email" name="email" class="form-control" d="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Correo electronico" required>
-                </div>
-            <div class="form-group">
-                <input type="text" class="form-control" name="address" placeholder="Dirección" value="{{address}}" required>
-            </div>
-            <div class="form-group">
-                <input type="number" class="form-control" name="telefono" placeholder="Telefono" value="{{lastname}}" required>
-            </div>
-            <!-- TODO cargar de una base de datos todos los paises y ciudades-->
-            <div class="form-group">
-                    <select class="form-control form-control-sm" name="country">
-                        <option selected value="null">Pais</option>   
-                        <option value="Colombia">Colombia</option>
-                        <option value="Mexico">Mexico</option>
-                        <option value="España">España</option>
-                        <option value="Canada">Canada</option>
-                        <option value="Australia">Australia</option>         
-                    </select>
-            </div>
-            <div class="form-group">
-                    <select class="form-control form-control-sm" name="city">
-                        <option selected value="null">Ciudad</option>   
-                        <option value="Colombia">Bogota</option>
-                        <option value="Medellin">Medellin</option>
-                        <option value="Cali">Cali</option>
-                        <option value="Pereira">Pereira</option>
-                        <option value="Barranquilla">Barranquilla</option>         
-                    </select>
-            </div>
-            <div class="form-group">
-                
-                <p><strong>Nota:</strong> La contraseña se generarea automaticamente y será enviada al futuro administrador</p>
-            </div>
-            <div class="form-group mt-4">
-                <button type="submit" class="btn btn-enter">Registrar</button>
-            </div>
-            
-            <div class="form-group">
-                <a href="/superuser/home">Atras</a>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
