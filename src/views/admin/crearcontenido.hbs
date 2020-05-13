@@ -1,0 +1,66 @@
+{{> navigationadmin}}
+
+<div class="crearcontenido">
+    <div class="container">
+        <div class="row text-center mt-5">
+            <div class="col">
+                <h4>Realice su publicación</h4>
+            </div>
+        </div>
+        <div class="row text-center mt-2">
+            <div class="col-md-8 offset-md-2">
+                   
+                <form action="" method="">
+                    <div class="card card-redondeado">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <input type="text" class="title-post" name="titlepost" placeholder="Ingrese el Título">
+                                <hr style="width: 30%; height:2px;border-width:0;color:#476209;background-color:#8FC413">
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control text-area-post" rows="6" placeholder="Ingrese el texto"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <span class="btn btn-default btn-file">
+                                            Foto <input type="file">
+                                        </span>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <span class="btn btn-default btn-file">
+                                            Audio <input type="file">
+                                        </span>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <span class="btn btn-default btn-file">
+                                            Archivos <input type="file">
+                                        </span>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <select class="form-control form-control-sm selectpost" name="interestpost">
+                                            <option selected value="null">Intereses</option>   
+                                            <option value="Colombia">Conciertos</option>
+                                            <option value="Medellin">Deporte</option>
+                                            <option value="Cali">Arte</option>       
+                                        </select>
+                                    </div>
+                        
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mt-4">
+                        <div class="row">
+                            <div class="col-4 offset-4">
+                                <button type="submit" class="btn btn-menu-super">Publicar</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

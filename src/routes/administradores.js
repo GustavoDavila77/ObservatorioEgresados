@@ -46,4 +46,8 @@ router.get('/admin/home', (req, res) => {
     res.render('admin/home');
 });
 
+router.get('/admin/crearcontenido', (req,res) => {
+  res.render('admin/crearcontenido');
+})
+
 module.exports = router;

@@ -49,10 +49,59 @@ p {
     margin-bottom: 30%;
 }
 
+/*********** admin styles *********/
 .homeadmin {
     margin-bottom: 30%;
 }
 
+.card-redondeado {
+    border-radius: 15px;
+}
+
+.title-post {
+    border: 0;
+}
+
+.title-post::-webkit-input-placeholder {
+    text-align: center;
+}
+
+.text-area-post {
+    border: 0;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+    background: #8FC413;
+    color: white !important;
+    width: 100%;
+    border-radius: 200px 200px 200px 200px;
+}
+.btn-file input[type=file] {
+      position: absolute;
+      top: 0;
+      right: 0;
+      min-width: 100%;
+      min-height: 100%;
+      font-size: 100px;
+      text-align: right;
+      filter: alpha(opacity=0);
+      opacity: 0;
+      outline: none;
+      background: white;
+      cursor: inherit;
+      display: block;
+}
+
+.selectpost {
+    background: #8FC413;
+    color: white;
+    width: 100%;
+    height: 100%;
+    border-radius: 200px 200px 200px 200px;
+}
+/***********/
 .preregistro {
     margin-bottom: 10%;
 }
@@ -60,6 +109,8 @@ p {
 .changepassword{
     margin-bottom: 10%;
 }
+
+/********** footer **********/
 #footer {
     margin-top: 3%;
     background: #00365D !important;
@@ -79,6 +130,7 @@ p {
     /*padding-bottom: 1px;*/
 }
 
+/******* Responsive *********/
 /*Small devices*/
 
 @media (max-width: 576px){
