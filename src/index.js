@@ -6,12 +6,23 @@ const methodOverride = require('method-override');
 const session = require('express-session');
 const flash = require('connect-flash'); //envio de mensajes entre vistas
 const passport = require('passport');
+const socketIO = require('socket.io');
+const http = require('http');
+
 // se instalan estos modulos para permiter el acceso a las propiedades de una instancia en handlebars que por defecto no estan permitidas 
 const Handlebars = require('handlebars');
 const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access');
 
 ///////Initialation
 const app = express();
+const server = http.createServer(app);
+const io = socketIO(server);
+
+
+// sockets
+//require('./sockets')(io);
+
+//base de datos
 require('./database');
 require('./config/passport');
 require('dotenv').config({ path: './src/variables.env'});  
@@ -71,10 +82,29 @@ app.use('/static', express.static(path.join(__dirname, 'public')));
 //leer localhost de variables y puerto
 const host = process.env.HOST || '0.0.0.0'; //heroku cambia el host 0.0.0.0
 const port = process.env.PORT || 5000;
+
+////////Server listening con port, host & sockets
+server.listen(port,host, ()=> {
+    console.log('El servidor esta funcionando-sockets'); 
+});
+
+//io representa la conexión con todos los sockets
+io.on('connection', (socket)=>{
+    console.log('new connection of sockets', socket.id);
+
+    //el servidor escucha los eventos
+    socket.on('post:message', (data) => {
+        console.log(data);
+        io.sockets.emit('post:message2', data); //se emita a los clientes
+    });
+});
+
+/*
 ////////Server listening con port y host
 app.listen(port, host, () => {
     console.log('El servidor esta funcionando');
-});
+});*/
+
 /*
 // app.listen original, funciona bien
 app.listen(app.get('port'), () => {

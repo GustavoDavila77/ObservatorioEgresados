@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router(); //para creación de rutas
-
+//const io = require('../sockets');
 //const SuperUser = require('../models/superuser');
 const Administrador = require('../models/Administradores');
 
 const { isAuthenticated } = require('../helpers/auth');
 
+//let socket = io();
 
 router.get('/admin/setpass', (req, res) => {
     res.render('admin/ChangePasswd');
@@ -50,4 +51,11 @@ router.get('/admin/crearcontenido', (req,res) => {
   res.render('admin/crearcontenido');
 })
 
+router.post('/admin/publicarcontenido', (req,res) =>{
+  //req.flash('success_msg', 'msm Posteado');
+  //res.redirect('/admin/crearcontenido');
+  //res.send('en construcción');
+  //console.log('publicando pru...');
+  //socket.emit('publicacion', {title: 'concierto'});
+})
 module.exports = router;
