@@ -22,7 +22,7 @@ function generarid(){
   return contra;
 }
 
-router.get('/superuser/setpass', (req, res) => {
+router.get('/superuser/setpass', isAuthenticated, (req, res) => {
   res.render('superuser/ChangePasswd');
 });
 
@@ -57,7 +57,7 @@ router.post('/superuser/setpass', async (req, res) => {
   } 
 });
 
-router.get('/superuser/secret_signup', (req, res) => {
+router.get('/superuser/secret_signup', isAuthenticated, (req, res) => {
     res.render('superuser/secretSignup');
 });
 
@@ -187,7 +187,7 @@ router.post('/superuser/crearadmin', async (req, res) => {
   console.log(req.body);
 });
 
-router.get('/superuser/consultaradmins', /*isAuthenticated,*/ async (req, res) => {
+router.get('/superuser/consultaradmins', isAuthenticated, async (req, res) => {
   let admins = await Admins.find({});
   admins.forEach(admin => {
     admin.tipouser = generarid();
