@@ -13,7 +13,7 @@ const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-acce
 ///////Initialation
 const app = express();
 require('./database');
-require('./config/passport');
+require('./config/passport')(passport);
 require('dotenv').config({ path: './src/variables.env'});  
 
 /////// Settings

@@ -15,7 +15,7 @@ router.post('/', passport.authenticate('local', {
     failureFlash: true //para enviar mensajes flash, lo hace con la var user en index
 })); */
 
-router.post('/', passport.authenticate('local', {
+router.post('/', passport.authenticate('local-superuser', {
     failureRedirect: '/',
     failureFlash: true
     }), function(req, res){

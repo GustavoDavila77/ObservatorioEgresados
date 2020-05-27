@@ -5,7 +5,7 @@ const router = express.Router(); //para creación de rutas
 const Administrador = require('../models/Administradores');
 
 const { isAuthenticated } = require('../helpers/auth');
-
+const passport = require('passport');
 
 router.get('/admin/setpass', (req, res) => {
     res.render('admin/ChangePasswd');
@@ -41,13 +41,19 @@ router.post('/admin/setpass', async (req, res) => {
           
     } 
 });
-  
-router.get('/admin/home', (req, res) => {
+
+/*
+router.get('/admin/home', passport.authenticate('local-admin', {
+  successRedirect: '/admin/home',
+  failureRedirect: '/'
+}));*/
+
+router.get('/admin/home', isAuthenticated,(req, res) => {
     res.render('admin/home');
 });
 
 router.get('/admin/crearcontenido', (req,res) => {
   res.render('admin/crearcontenido');
-})
+});
 
 module.exports = router;

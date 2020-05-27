@@ -7,6 +7,7 @@ const SuperUser = require('../models/SuperUser');
 const Admins = require('../models/Administradores');
 const nodemailer = require('nodemailer');
 const { isAuthenticated } = require('../helpers/auth');
+const passport = require("passport");
 
 function generar(){
   var caracteres = "abcdefghijkmnpqrtuvwxyzABCDEFGHIJKLMNPQRTUVWXYZ2346789";
@@ -22,6 +23,12 @@ function generarid(){
   return contra;
 }
 
+/*
+router.get('/superuser/setpass', passport.authenticate('local-superuser', {
+  successRedirect: '/superuser/ChangePasswd',
+  failureRedirect: '/' }));*/
+
+//funciona
 router.get('/superuser/setpass', isAuthenticated, (req, res) => {
   res.render('superuser/ChangePasswd');
 });
@@ -110,8 +117,17 @@ router.post('/superuser/secret_signup', async (req, res) => {
   });
 
 router.get('/superuser/home', isAuthenticated, async (req, res) => {
-    res.render('superuser/home');
-});
+    console.log('other validation');
+    console.log(req.user.tipouser);
+    if(req.user.tipouser == 'superusuario'){
+      res.render('superuser/home');
+    }
+    else{
+      req.flash('error_msg', 'Error');
+      res.redirect('/');
+    }
+    
+}); 
 
 router.get('/superuser/crearadmin', isAuthenticated, async (req, res) => {
   res.render('admin/signup');
