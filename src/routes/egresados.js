@@ -13,12 +13,25 @@ router.get('/egresados/signup', (req, res) => {
 });
 
 router.get('/egresados/home', isAuthenticated, (req, res) => {
-  //res.send('entre al home egre');
-  res.render('egresados/home');
+  if(req.user.tipouser == 'egresado'){
+    res.render('egresados/home');
+  }
+  else{
+    req.flash('error_msg', 'Error');
+    res.redirect('/');
+  }
+  
 });
 
-router.get('/egresados/setpass', (req, res) => {
-  res.render('egresados/ChangePasswd');
+router.get('/egresados/setpass', isAuthenticated, (req, res) => {
+  if(req.user.tipouser == 'egresado'){
+    res.render('egresados/ChangePasswd');
+  }
+  else{
+    req.flash('error_msg', 'Error');
+    res.redirect('/');
+  }
+  
 });
 
 router.post('/egresados/setpass', async (req, res) => {

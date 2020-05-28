@@ -7,7 +7,6 @@ const SuperUser = require('../models/SuperUser');
 const Admins = require('../models/Administradores');
 const nodemailer = require('nodemailer');
 const { isAuthenticated } = require('../helpers/auth');
-const passport = require("passport");
 
 function generar(){
   var caracteres = "abcdefghijkmnpqrtuvwxyzABCDEFGHIJKLMNPQRTUVWXYZ2346789";
@@ -30,7 +29,14 @@ router.get('/superuser/setpass', passport.authenticate('local-superuser', {
 
 //funciona
 router.get('/superuser/setpass', isAuthenticated, (req, res) => {
-  res.render('superuser/ChangePasswd');
+  if(req.user.tipouser == 'superusuario'){
+    res.render('superuser/ChangePasswd');
+  }
+  else{
+    req.flash('error_msg', 'Error');
+    res.redirect('/');
+  }
+  
 });
 
 router.post('/superuser/setpass', async (req, res) => {
@@ -65,7 +71,13 @@ router.post('/superuser/setpass', async (req, res) => {
 });
 
 router.get('/superuser/secret_signup', isAuthenticated, (req, res) => {
+  if(req.user.tipouser == 'superusuario'){
     res.render('superuser/secretSignup');
+  }
+  else{
+    req.flash('error_msg', 'Error');
+    res.redirect('/');
+  }
 });
 
 //aqui va el post del registro
@@ -117,8 +129,7 @@ router.post('/superuser/secret_signup', async (req, res) => {
   });
 
 router.get('/superuser/home', isAuthenticated, async (req, res) => {
-    console.log('other validation');
-    console.log(req.user.tipouser);
+  // esto se hace para evitar que un usuario una vez autenticado, salte entre rutas
     if(req.user.tipouser == 'superusuario'){
       res.render('superuser/home');
     }
@@ -130,7 +141,15 @@ router.get('/superuser/home', isAuthenticated, async (req, res) => {
 }); 
 
 router.get('/superuser/crearadmin', isAuthenticated, async (req, res) => {
-  res.render('admin/signup');
+  // esto se hace para evitar que un usuario una vez autenticado, salte entre rutas
+  if(req.user.tipouser == 'superusuario'){
+    res.render('admin/signup');
+  }
+  else{
+    req.flash('error_msg', 'Error');
+    res.redirect('/');
+  }
+  
 });
 
 router.post('/superuser/crearadmin', async (req, res) => {
@@ -204,11 +223,19 @@ router.post('/superuser/crearadmin', async (req, res) => {
 });
 
 router.get('/superuser/consultaradmins', isAuthenticated, async (req, res) => {
-  let admins = await Admins.find({});
-  admins.forEach(admin => {
-    admin.tipouser = generarid();
-  });
-  res.render('admin/adminlist',{admins}); 
+  // esto se hace para evitar que un usuario una vez autenticado, salte entre rutas
+  if(req.user.tipouser == 'superusuario'){
+    let admins = await Admins.find({});
+    admins.forEach(admin => {
+      admin.tipouser = generarid();
+    });
+    res.render('admin/adminlist',{admins});
+  }
+  else{
+    req.flash('error_msg', 'Error');
+    res.redirect('/');
+  }
+   
 });
 
 
