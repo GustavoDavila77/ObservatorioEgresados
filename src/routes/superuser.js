@@ -22,11 +22,6 @@ function generarid(){
   return contra;
 }
 
-/*
-router.get('/superuser/setpass', passport.authenticate('local-superuser', {
-  successRedirect: '/superuser/ChangePasswd',
-  failureRedirect: '/' }));*/
-
 //funciona
 router.get('/superuser/setpass', isAuthenticated, (req, res) => {
   if(req.user.tipouser == 'superusuario'){

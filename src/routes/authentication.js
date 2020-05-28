@@ -8,14 +8,7 @@ router.get('/', (req, res) => {
     res.render('index'); //como ya se realizo la config no es necesario colocar index.hbs
 });
 
-/*
-router.post('/', passport.authenticate('local', {
-    successRedirect: '/superuser/home',
-    failureRedirect: '/',
-    failureFlash: true //para enviar mensajes flash, lo hace con la var user en index
-})); */
-
-router.post('/', passport.authenticate('local-superuser', {
+router.post('/', passport.authenticate('local-users', {
     failureRedirect: '/',
     failureFlash: true
     }), function(req, res){

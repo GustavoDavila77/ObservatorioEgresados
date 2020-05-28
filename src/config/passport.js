@@ -7,8 +7,8 @@ const UserAdmin = require('../models/Administradores');
 
 // se define la estrategia de 
 //se utiliza el callback 'done' para avisar cuando se termina
-// TODO arreglar problema de autenticacion de egresados https://mjvolk.com/implement-multiple-local-user-authentication-strategies-in-passport-js/
 
+//se crea un constructor se session debido a que hay multiples usuarios
 function SessionConstructor(userId, userGroup, details) {
     this.userId = userId;
     this.userGroup = userGroup;
@@ -22,6 +22,7 @@ module.exports = function(passport) {
         let userGroup = "model1";
         let userPrototype =  Object.getPrototypeOf(userObject);
 
+        //se identifica el tipo de usuario y se asigna a un grupo, model1, model2, model3
         if (userPrototype === User.prototype) {
             userGroup = "model1";
           } else if (userPrototype === UserAdmin.prototype) {
@@ -31,12 +32,15 @@ module.exports = function(passport) {
             userGroup = "model3"; 
             }
 
+        //luego de haber identificado se crea la sesion y es enviado al callback done
         let sessionConstructor = new SessionConstructor(userObject.id, userGroup, '');
         done(null,sessionConstructor);
 
     });
 
+    //para la deserializacion se recibe el constructor guardado en la sesión
     passport.deserializeUser(function (sessionConstructor, done) {
+        //se identifica el tipo de usuario y se realiza el cierre de sesión
         if (sessionConstructor.userGroup == 'model1') {
             User.findOne({
                 _id: sessionConstructor.userId
@@ -60,7 +64,8 @@ module.exports = function(passport) {
       
     });
 
-    passport.use('local-superuser', new LocalStrategy({ 
+    //se crea una sola estrategia de authenticación llamada local-user
+    passport.use('local-users', new LocalStrategy({ 
         usernameField: 'email' //campo con el que se va a autenticar 
     }, async (email, password, done) => { //campos a recibir
         const user = await User.findOne({email: email});
@@ -72,7 +77,7 @@ module.exports = function(passport) {
         if(user){
             const match = await user.matchPassword(password); //se ejecuta metodo definido en el modelo para verificar contraseña
             if(match) {
-                return done(null, user);
+                return done(null, user); //se envia el usuario al serializador
             }else{
                 return done(null, false, {message: 'Incorrect Password'});
             }
@@ -96,149 +101,5 @@ module.exports = function(passport) {
         else{
             return done(null, false, {message: 'Not User found'}); //este callback sirve para terminar el proceso de autenticación -- (error, user, mensaje)
         }
-
-        /*
-        if(!user){
-            return done(null, false, {message: 'Not User found'}); //este callback sirve para terminar el proceso de autenticación -- (error, user, mensaje)
-        } else {
-            const match = await user.matchPassword(password); //se ejecuta metodo definido en el modelo para verificar contraseña
-            if(match) {
-                return done(null, user);
-            }else{
-                return done(null, false, {message: 'Incorrect Password'});
-            }
-        }*/
-
     }));
-
-    // TODO posible solución, aunque creo que el problema radica en el serializuser y en el deserializer
-    /*
-    passport.use('local-admin', new LocalStrategy({
-        usernameField: 'email' //campo con el que se va a autenticar 
-    }, async (email, password, done) => { //campos a recibir
-        const useradmin = await UserAdmin.findOne({email: email});
-    
-        
-        if(useradmin){
-            const match = await useradmin.matchPassword(password); //se ejecuta metodo definido en el modelo para verificar contraseña
-            if(match) {
-                return done(null, useradmin);
-            }else{
-                return done(null, false, {message: 'Incorrect Password'});
-            }
-        }
-    }));*/
 }
-
-/*
-// implementacion que funcioanaba pero no permitia guardar sesion de egresados ni admins
-passport.use(new LocalStrategy({
-    usernameField: 'email' //campo con el que se va a autenticar 
-}, async (email, password, done) => { //campos a recibir
-    const user = await User.findOne({email: email});
-    //next(); 
-    const useregresado = await UserEgresado.findOne({email: email});
-    const useradmin = await UserAdmin.findOne({email: email});
-
-    if(user){
-        const match = await user.matchPassword(password); //se ejecuta metodo definido en el modelo para verificar contraseña
-        if(match) {
-            return done(null, user);
-        }else{
-            return done(null, false, {message: 'Incorrect Password'});
-        }
-    }
-    else if(useregresado){
-        const match = await useregresado.matchPassword(password); //se ejecuta metodo definido en el modelo para verificar contraseña
-        if(match) {
-            return done(null, useregresado);
-        }else{
-            return done(null, false, {message: 'Incorrect Password'});
-        }
-    }
-    else if(useradmin){
-        const match = await useradmin.matchPassword(password); //se ejecuta metodo definido en el modelo para verificar contraseña
-        if(match) {
-            return done(null, useradmin);
-        }else{
-            return done(null, false, {message: 'Incorrect Password'});
-        }
-    }
-    else{
-        return done(null, false, {message: 'Not User found'}); //este callback sirve para terminar el proceso de autenticación -- (error, user, mensaje)
-    }
-    
-})); */
-
-/*
-module.exports = function(passport){
-    
-    passport.use('local-super-login', new LocalStrategy({
-        usernameField: 'email' //campo con el que se va a autenticar 
-    }, async (email, password, done) => { //campos a recibir
-        const user = await User.findOne({email: email});
-        if(!user){
-            return done(null, false, {message: 'Not User found'}); //este callback sirve para terminar el proceso de autenticación -- (error, user, mensaje)
-        } else {
-            const match = await user.matchPassword(password); //se ejecuta metodo definido en el modelo para verificar contraseña
-            if(match) {
-                return done(null, user);
-            }else{
-                return done(null, false, {message: 'Incorrect Password'});
-            }
-        }
-    }));
-
-    passport.use('local-egresado-login', new LocalStrategy({
-        usernameField: 'email' //campo con el que se va a autenticar 
-    }, async (email, password, done) => { //campos a recibir
-        const useregresado = await UserEgresado.findOne({email: email});
-        if(!useregresado){
-            return done(null, false, {message: 'Not User found'}); //este callback sirve para terminar el proceso de autenticación -- (error, user, mensaje)
-        } else {
-            const match = await user.matchPassword(password); //se ejecuta metodo definido en el modelo para verificar contraseña
-            if(match) {
-                return done(null, useregresado);
-            }else{
-                return done(null, false, {message: 'Incorrect Password'});
-            }
-        }
-    }   
-    ));
-}    */
-
-// Aqui se guardaran las sesiones //video 2:42
-//done(error, user, optiones)
-
-/*
-passport.serializeUser((user, done) => {
-    done(null, user.id); //cuando el user se logge se guarda el id para no tener que volver a pedirlo cuando pase a otra pag
-}); 
-
-//en este proceso inverso al anterior, se toma el id y se genera un usuario para poder usar sus datos
-passport.deserializeUser((id, done) => {
-    User.findById(id, (err,user) =>{
-        done(err, user);
-    }); 
-    
-}); */
-
-
-
-// passport original
-/*
-passport.use(new LocalStrategy({
-    usernameField: 'email' //campo con el que se va a autenticar 
-}, async (email, password, done) => { //campos a recibir
-    const user = await User.findOne({email: email});
-    if(!user){
-        return done(null, false, {message: 'Not User found'}); //este callback sirve para terminar el proceso de autenticación -- (error, user, mensaje)
-    } else {
-        const match = await user.matchPassword(password); //se ejecuta metodo definido en el modelo para verificar contraseña
-        if(match) {
-            return done(null, user);
-        }else{
-            return done(null, false, {message: 'Incorrect Password'});
-        }
-    }
-})); */
