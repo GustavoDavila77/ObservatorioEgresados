@@ -6,10 +6,15 @@ const Administrador = require('../models/Administradores');
 
 const { isAuthenticated } = require('../helpers/auth');
 
-//let socket = io();
-
-router.get('/admin/setpass', (req, res) => {
+router.get('/admin/setpass', isAuthenticated, (req, res) => {
+  if(req.user.tipouser == 'administrador'){
     res.render('admin/ChangePasswd');
+  }
+  else{
+    req.flash('error_msg', 'Error');
+    res.redirect('/');
+  }
+    
   });
   
 router.post('/admin/setpass', async (req, res) => {
@@ -42,14 +47,28 @@ router.post('/admin/setpass', async (req, res) => {
           
     } 
 });
-  
-router.get('/admin/home', (req, res) => {
+
+router.get('/admin/home', isAuthenticated,(req, res) => {
+  if(req.user.tipouser == 'administrador'){
     res.render('admin/home');
+  }
+  else{
+    req.flash('error_msg', 'Error');
+    res.redirect('/');
+  }
+    
 });
 
-router.get('/admin/crearcontenido', (req,res) => {
-  res.render('admin/crearcontenido');
-})
+router.get('/admin/crearcontenido', isAuthenticated, (req,res) => {
+  if(req.user.tipouser == 'administrador'){
+    res.render('admin/crearcontenido');
+  }
+  else{
+    req.flash('error_msg', 'Error');
+    res.redirect('/');
+  }
+  
+});
 
 router.post('/admin/publicarcontenido', (req,res) =>{
   //req.flash('success_msg', 'msm Posteado');

@@ -24,7 +24,7 @@ const io = socketIO(server);
 
 //base de datos
 require('./database');
-require('./config/passport');
+require('./config/passport')(passport);
 require('dotenv').config({ path: './src/variables.env'});  
 
 /////// Settings

@@ -22,8 +22,16 @@ function generarid(){
   return contra;
 }
 
-router.get('/superuser/setpass', (req, res) => {
-  res.render('superuser/ChangePasswd');
+//funciona
+router.get('/superuser/setpass', isAuthenticated, (req, res) => {
+  if(req.user.tipouser == 'superusuario'){
+    res.render('superuser/ChangePasswd');
+  }
+  else{
+    req.flash('error_msg', 'Error');
+    res.redirect('/');
+  }
+  
 });
 
 router.post('/superuser/setpass', async (req, res) => {
@@ -57,8 +65,14 @@ router.post('/superuser/setpass', async (req, res) => {
   } 
 });
 
-router.get('/superuser/secret_signup', (req, res) => {
+router.get('/superuser/secret_signup', isAuthenticated, (req, res) => {
+  if(req.user.tipouser == 'superusuario'){
     res.render('superuser/secretSignup');
+  }
+  else{
+    req.flash('error_msg', 'Error');
+    res.redirect('/');
+  }
 });
 
 //aqui va el post del registro
@@ -110,11 +124,27 @@ router.post('/superuser/secret_signup', async (req, res) => {
   });
 
 router.get('/superuser/home', isAuthenticated, async (req, res) => {
-    res.render('superuser/home');
-});
+  // esto se hace para evitar que un usuario una vez autenticado, salte entre rutas
+    if(req.user.tipouser == 'superusuario'){
+      res.render('superuser/home');
+    }
+    else{
+      req.flash('error_msg', 'Error');
+      res.redirect('/');
+    }
+    
+}); 
 
 router.get('/superuser/crearadmin', isAuthenticated, async (req, res) => {
-  res.render('admin/signup');
+  // esto se hace para evitar que un usuario una vez autenticado, salte entre rutas
+  if(req.user.tipouser == 'superusuario'){
+    res.render('admin/signup');
+  }
+  else{
+    req.flash('error_msg', 'Error');
+    res.redirect('/');
+  }
+  
 });
 
 router.post('/superuser/crearadmin', async (req, res) => {
@@ -187,12 +217,20 @@ router.post('/superuser/crearadmin', async (req, res) => {
   console.log(req.body);
 });
 
-router.get('/superuser/consultaradmins', /*isAuthenticated,*/ async (req, res) => {
-  let admins = await Admins.find({});
-  admins.forEach(admin => {
-    admin.tipouser = generarid();
-  });
-  res.render('admin/adminlist',{admins}); 
+router.get('/superuser/consultaradmins', isAuthenticated, async (req, res) => {
+  // esto se hace para evitar que un usuario una vez autenticado, salte entre rutas
+  if(req.user.tipouser == 'superusuario'){
+    let admins = await Admins.find({});
+    admins.forEach(admin => {
+      admin.tipouser = generarid();
+    });
+    res.render('admin/adminlist',{admins});
+  }
+  else{
+    req.flash('error_msg', 'Error');
+    res.redirect('/');
+  }
+   
 });
 
 
