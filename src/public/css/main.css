@@ -94,6 +94,11 @@ p {
       display: block;
 }
 
+.btn-ver-noticia {
+    color: white;
+    background: #8FC413;
+    width: 30%;  
+}
 .selectpost {
     background: #8FC413;
     color: white;

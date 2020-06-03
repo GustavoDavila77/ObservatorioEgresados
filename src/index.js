@@ -12,6 +12,7 @@ const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-acce
 const morgan = require('morgan'); //visualización de peticiones por consola
 const multer = require('multer'); //cargar imagenes
 const { v4: uuid} = require('uuid'); // versión 4 para generar id random para imagenes
+const { format } = require('timeago.js'); //permite dar un formato más legible a la fecha
 
 ///////Initialation
 const app = express();
@@ -69,6 +70,12 @@ app.use((req, res, next) => {
     res.locals.user = req.user || null; //cuando un user se autentica passport guarda la info en req, si no esta autenticado su valor es null
     next(); //para que continue con el resto de codigo  
 }); 
+
+//hacer uso de la fecha
+app.use((req, res, next) =>{
+    app.locals.format = format; 
+    next();
+});
  
 ////////Routes
 app.use(require('./routes/authentication'));

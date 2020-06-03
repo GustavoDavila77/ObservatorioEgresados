@@ -6,6 +6,7 @@ const Administrador = require('../models/Administradores');
 const Noticia =  require('../models/Noticia');
 
 const { isAuthenticated } = require('../helpers/auth');
+var timeago = require('timeago.js');
 
 router.get('/admin/setpass', isAuthenticated, (req, res) => {
   if(req.user.tipouser == 'administrador'){
@@ -49,39 +50,37 @@ router.post('/admin/setpass', async (req, res) => {
     } 
 });
 
-router.get('/admin/home', isAuthenticated,(req, res) => {
-  if(req.user.tipouser == 'administrador'){
-    res.render('admin/home');
-  }
-  else{
-    req.flash('error_msg', 'Error');
-    res.redirect('/');
-  }
-    
+router.get('/admin/home', /*isAuthenticated,*/ async (req, res) => {
+  const noticias = await Noticia.find();
+  //console.log(noticias);
+  //console.log(timeago(new Date('2/10/1994')));
+  res.render('admin/home', {noticias});
 });
 
 router.get('/admin/crearcontenido', /*isAuthenticated,*/ (req,res) => {
     res.render('admin/crearcontenido');
 });
 
-router.post('/admin/crearcontenido', /*isAuthenticated,*/ (req,res) => {
-    console.log(req.file);
+router.post('/admin/crearcontenido', /*isAuthenticated,*/ async (req,res) => {
+    //console.log(req.file);
+    //TODO Poner mensaje cuando se suba una imagen 
     //const { title, description, image} = req.body;
-    const image = new Noticia();
-    //title = req.body.titlepost;
-    res.send('post created');
+    const noticia = new Noticia();
+    noticia.title = req.body.titlepost;
+    noticia.description = req.body.description;
+    noticia.filenameimg =  req.file.filename;
+    noticia.pathimg = 'images/uploads/'+ req.file.filename;
+    noticia.originalnameimg =  req.file.originalname;
+    noticia.mimetype =  req.file.mimetype;
+    noticia.sizeimg =  req.file.size;
+    //console.log(noticia); 
+    await noticia.save();
+    res.redirect('/admin/home');
 });
 
 //ruta para mostrar una noticia y ahí editarla o eliminarla
 router.get('/admin/noticia/:id', /*isAuthenticated,*/ (req,res) => {
-  if(req.user.tipouser == 'administrador'){
     res.send('Perfil de la noticia');
-  }
-  else{
-    req.flash('error_msg', 'Error');
-    res.redirect('/');
-  }
-  
 });
 
 router.get('/admin/noticia/:id/delete', /*isAuthenticated,*/ (req,res) => {
