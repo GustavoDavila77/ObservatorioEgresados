@@ -3,7 +3,7 @@ const { Schema } = mongoose; //requiero solo su esquema
 const bcrypt = require('bcryptjs');
 const passportLocalMongoose = require('passport-local-mongoose');
 
-// add egresadohabilitado: 0/1
+// TODO add egresadohabilitado: 0/1
 const UserSchema = new Schema({
         //permiso: {type: String, default: 3}
         name: {type: String, required:true},

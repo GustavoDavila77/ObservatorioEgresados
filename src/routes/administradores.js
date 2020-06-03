@@ -3,6 +3,7 @@ const router = express.Router(); //para creación de rutas
 
 //const SuperUser = require('../models/superuser');
 const Administrador = require('../models/Administradores');
+const Noticia =  require('../models/Noticia');
 
 const { isAuthenticated } = require('../helpers/auth');
 
@@ -59,9 +60,33 @@ router.get('/admin/home', isAuthenticated,(req, res) => {
     
 });
 
-router.get('/admin/crearcontenido', isAuthenticated, (req,res) => {
-  if(req.user.tipouser == 'administrador'){
+router.get('/admin/crearcontenido', /*isAuthenticated,*/ (req,res) => {
     res.render('admin/crearcontenido');
+});
+
+router.post('/admin/crearcontenido', /*isAuthenticated,*/ (req,res) => {
+    console.log(req.file);
+    //const { title, description, image} = req.body;
+    const image = new Noticia();
+    //title = req.body.titlepost;
+    res.send('post created');
+});
+
+//ruta para mostrar una noticia y ahí editarla o eliminarla
+router.get('/admin/noticia/:id', /*isAuthenticated,*/ (req,res) => {
+  if(req.user.tipouser == 'administrador'){
+    res.send('Perfil de la noticia');
+  }
+  else{
+    req.flash('error_msg', 'Error');
+    res.redirect('/');
+  }
+  
+});
+
+router.get('/admin/noticia/:id/delete', /*isAuthenticated,*/ (req,res) => {
+  if(req.user.tipouser == 'administrador'){
+    res.send('noticia borrada');
   }
   else{
     req.flash('error_msg', 'Error');

@@ -11,14 +11,14 @@
           <div class="card-body">
             <form action="/admin/setpass" method="POST">
               <div class="form-group">
-                <input type="email" class="form-control" name="email" placeholder="Email" value="{{email}}">
+                <input type="email" class="form-control" name="email" placeholder="Email" value="{{email}}" required>
               </div>
               <!-- TODO Para reforzar seguridad agregar campo contraseña actual-->
               <div class="form-group">
-                <input type="password" class="form-control" name="password" placeholder="Password" value="{{password}}">
+                <input type="password" class="form-control" name="password" placeholder="Password" value="{{password}}" required>
               </div>
               <div class="form-group">
-                <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password">
+                <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password" required>
               </div>
               <button type="submit" class="btn btn-changepassword btn-block">
                 Cambiar clave 

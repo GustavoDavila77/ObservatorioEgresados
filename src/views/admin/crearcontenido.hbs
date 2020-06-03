@@ -9,23 +9,24 @@
         </div>
         <div class="row text-center mt-2">
             <div class="col-md-8 offset-md-2">
-                   
-                <form action="" method="">
+                
+                <!-- enctype para que soperte el envio de imagenes-->
+                <form action="/admin/crearcontenido" method="POST" enctype="multipart/form-data" >
                     <div class="card card-redondeado">
                         <div class="card-body">
                             <div class="form-group">
-                                <input type="text" class="title-post" name="titlepost" placeholder="Ingrese el Título">
+                                <input type="text" class="title-post" name="titlepost" placeholder="Ingrese el Título" required>
                                 <hr style="width: 30%; height:2px;border-width:0;color:#476209;background-color:#8FC413">
                             </div>
                             <div class="form-group">
-                                <textarea class="form-control text-area-post" rows="6" placeholder="Ingrese el texto"></textarea>
+                                <textarea class="form-control text-area-post" name="description" rows="6" placeholder="Ingrese el texto"></textarea required>
                             </div>
 
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-3">
                                         <span class="btn btn-default btn-file">
-                                            Foto <input type="file">
+                                            Foto <input type="file" name="image">
                                         </span>
                                     </div>
                                     <div class="col-md-3">

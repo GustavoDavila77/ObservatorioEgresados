@@ -9,6 +9,9 @@ const passport = require('passport');
 // se instalan estos modulos para permiter el acceso a las propiedades de una instancia en handlebars que por defecto no estan permitidas 
 const Handlebars = require('handlebars');
 const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access');
+const morgan = require('morgan'); //visualización de peticiones por consola
+const multer = require('multer'); //cargar imagenes
+const { v4: uuid} = require('uuid'); // versión 4 para generar id random para imagenes
 
 ///////Initialation
 const app = express();
@@ -34,18 +37,27 @@ app.engine('.hbs', exphbs({
 app.set('view engine', '.hbs');
 
 /////// Middlewares
-app.use(express.urlencoded({extended: false}) ); //para recibir datos de los formularios, false para no recibir img u otros formatos
+app.use(express.urlencoded({extended: false}) ); //para recibir datos de los formularios, false para no recibir img u otros formatos, para eso esta multer
 app.use(methodOverride('_method')); //para que los formularios puedan enviar metodos como put and delete, el metodo oculto lo haremos con '_method
 app.use(session({ //para guardar los datos de inicio de los usuarios
     secret: 'pechesapp', //palabra secreta
     resave: true,
     saveUninitialized: true
 }));
+app.use(morgan('dev'));
+const storage = multer.diskStorage({
+    destination: path.join(__dirname, 'public/images/uploads'),
+    filename: (req, file, cb, filename) => {
+        cb(null, uuid() + path.extname(file.originalname)); //almacenar con identificador unico y con la extensión de la imagen
+    }
+});
+app.use(multer({ storage: storage }).single('image'));
+//app.use(multer({dest: path.join(__dirname, 'public/images/uploads')}).single('image')); //donde se van a guardar las images, solo una, que venga del server con nombre image
 
 //config de passport
 app.use(passport.initialize());
 app.use(passport.session()); //para que use session - definido en los middlewares
-app.use(flash());
+app.use(flash()); 
 
 
 //////// Global Variables
@@ -75,9 +87,10 @@ const port = process.env.PORT || 5000;
 app.listen(port, host, () => {
     console.log('El servidor esta funcionando');
 });
+
 /*
-// app.listen original, funciona bien
+//app.listen original, funciona bien
 app.listen(app.get('port'), () => {
     console.log('Server escuchando en puerto', app.get('port'));
-});  */
+}); */ 
  
