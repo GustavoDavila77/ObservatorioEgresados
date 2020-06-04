@@ -1,5 +1,6 @@
 const { Schema, model } = require('mongoose'); //requiero solo su esquema y modelo
 
+// TODO add intereses y poner default '' para cuando no se suba una imagen
 const noticeSchema = new Schema({
     title: {type: String, required:true},
     description: {type: String, required: true},

@@ -7,6 +7,9 @@ const Noticia =  require('../models/Noticia');
 
 const { isAuthenticated } = require('../helpers/auth');
 var timeago = require('timeago.js');
+const path = require('path');
+//const { unlink } = require('fs-extra');
+const fs = require('fs');
 
 router.get('/admin/setpass', isAuthenticated, (req, res) => {
   if(req.user.tipouser == 'administrador'){
@@ -63,8 +66,9 @@ router.get('/admin/crearcontenido', /*isAuthenticated,*/ (req,res) => {
 
 router.post('/admin/crearcontenido', /*isAuthenticated,*/ async (req,res) => {
     //console.log(req.file);
-    //TODO Poner mensaje cuando se suba una imagen 
+    //TODO Poner mensaje cuando se cargue una imagen 
     //const { title, description, image} = req.body;
+    //TODO poner condicional en caso que no se suba una imagen
     const noticia = new Noticia();
     noticia.title = req.body.titlepost;
     noticia.description = req.body.description;
@@ -79,18 +83,24 @@ router.post('/admin/crearcontenido', /*isAuthenticated,*/ async (req,res) => {
 });
 
 //ruta para mostrar una noticia y ahí editarla o eliminarla
-router.get('/admin/noticia/:id', /*isAuthenticated,*/ (req,res) => {
-    res.send('Perfil de la noticia');
+router.get('/admin/noticia/:id', /*isAuthenticated,*/ async (req,res) => {
+  const { id } = req.params;
+  const noticia = await Noticia.findById(id);
+  console.log(noticia);
+  res.render('admin/noticiaprofile', {noticia}); 
 });
 
-router.get('/admin/noticia/:id/delete', /*isAuthenticated,*/ (req,res) => {
-  if(req.user.tipouser == 'administrador'){
-    res.send('noticia borrada');
-  }
-  else{
-    req.flash('error_msg', 'Error');
-    res.redirect('/');
-  }
+router.get('/admin/noticia/:id/delete', /*isAuthenticated,*/ async (req,res) => {
+  //console.log(req.params.id);
+  const {id} = req.params;
+  const noticia = await Noticia.findByIdAndDelete(id); //al eliminar la img nos devuelve un objeto de esa img
+  //console.log(path.resolve());
+  //await unlink('/static/' + noticia.pathimg);
+  fs.unlink("src/public/"+noticia.pathimg,function(err){
+    if(err) throw err;
+      console.log('File deleted!');
+  });
+  res.redirect('/admin/home');  
   
 });
 

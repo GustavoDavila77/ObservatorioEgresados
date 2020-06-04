@@ -4,6 +4,24 @@
 <div class="homegresado">
     <div class="container">
         <h1>noticias de la plataforma - En construcción :) ...</h1>
+
+        <div class="row">
+            <div class="card-columns">
+                {{#each noticias}}
+                    <div class="card">
+                        <img src="/static/{{pathimg}}" alt="" class="card-img-top">  
+                        <div class="card-body">
+                            <h5>{{title}}</h5>
+                            <p class="card-text">{{description}}</p>
+                            
+                        </div>
+                    </div>
+                    <div>
+                
+                    </div>
+                {{/each}}
+            </div>
+        </div>
     </div>
     
 </div>

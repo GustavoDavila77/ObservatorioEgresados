@@ -1,0 +1,34 @@
+{{> navigationadmin}}
+
+<div class="noticiaprofile mt-4">
+    <div class="container">
+
+        <div class="row text-center mb-3">
+            <div class="col">
+                <h1 class="text-center"> <strong>Administrar Noticia</strong></h1>
+            </div>
+            
+        </div>
+
+        <!-- TODO add fecha-->
+        <div class="row text-center">
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <!-- {{#if noticia}} el if no es necesario-->
+                        <img src="/static/{{noticia.pathimg}}" alt="" class="card-img-top">  
+                        <div class="card-body">
+                            <h5>{{title}}</h5>
+                            <p class="card-text">{{noticia.description}}</p>
+                            <a href="/admin/noticia/{{noticia._id}}/delete" class="btn btn-ver-noticia">Borrar</a>
+                        </div>
+                    <!-- {{/if}} -->
+                </div>
+            </div>
+            
+        </div>
+
+    </div>
+
+    
+    
+</div>
