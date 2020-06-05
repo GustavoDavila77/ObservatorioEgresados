@@ -1,0 +1,38 @@
+{{> navigationegresado}}
+
+<div class="chat mt-5">
+    <div class="container">
+        <!-- CHAT CONTAINER -->
+        <div id="contentWrap">
+            <div class="row">
+                <div class="col-md-8 offset-md-2">
+                    <div class="card">
+                        <!-- CARD HEADER-->
+                        <div class="card-header bg-dark text-white">
+                            <h4>Chat en construcción :D</h3>
+                        </div>
+
+                        <!-- CARD BODY-->
+                        <div id="chat" class="card-body"></div>
+
+                        <!-- CARD FOOTER -->
+                        <form id="message-form" class="card-footer">
+                            <div class="input-group">
+                                <input type="text" id="message" class="form-control" />
+                                <div class="input-group-append">
+                                <button class="btn btn-color">
+                                    <i class="fas fa-location-arrow"></i> Send
+                                </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="/socket.io/socket.io.js" charset="utf-8"></script> <!-- al requerir socket se crea un objeto io que esta presente en todo el html-->
+<script src="/static/js/frontsockets.js" charset="utf-8"></script> 

@@ -195,4 +195,8 @@ router.post('/egresados/preregistro', async (req, res) => {
     }
 });
 
+router.get('/egresados/chat', (req, res) => {
+  res.render('egresados/chat');
+});
+
 module.exports = router;

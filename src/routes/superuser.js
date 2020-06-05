@@ -183,6 +183,10 @@ router.post('/superuser/crearadmin', async (req, res) => {
     errors.push({text: 'Please Insert your DNI'});
   }
 
+  if(dni <= 0){
+    errors.push({text: 'Por favor inserte un DNI positivo'});
+  }
+
   if(email.length <= 0){
     errors.push({text: 'Please Insert your email'});
   }
