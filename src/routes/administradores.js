@@ -53,6 +53,7 @@ router.post('/admin/setpass', async (req, res) => {
     } 
 });
 
+// TODO volver a ingresar authenticación
 router.get('/admin/home', /*isAuthenticated,*/ async (req, res) => {
   const noticias = await Noticia.find();
   //console.log(noticias);
