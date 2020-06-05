@@ -2,6 +2,12 @@
 
 <div class="chat mt-5">
     <div class="container">
+        
+        <div class="row">
+            {{#if user}}
+                <h6>user: {{user.name}}</h6>
+            {{/if}}
+        </div> 
         <!-- CHAT CONTAINER -->
         <div id="contentWrap">
             <div class="row">
