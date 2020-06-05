@@ -13,9 +13,16 @@ router.get('/egresados/signup', (req, res) => {
     res.render('egresados/signup');
 });
 
-router.get('/egresados/home', /*isAuthenticated,*/ async (req, res) => {
-  const noticias = await Noticia.find();
-  res.render('egresados/home', {noticias});  
+
+router.get('/egresados/home', async (req, res) => {
+  if(req.user.tipouser == 'egresado'){
+    const noticias = await Noticia.find();
+    res.render('egresados/home', {noticias}); 
+  }
+  else{
+    req.flash('error_msg', 'Error');
+    res.redirect('/');
+  } 
 });
 
 router.get('/egresados/setpass', isAuthenticated, (req, res) => {
@@ -59,10 +66,8 @@ router.post('/egresados/setpass', async (req, res) => {
         
   } 
 });
- 
-// TODO Hacer validación que el user este en la base de datos de la utp, PERO que no este en la colección de egresados
-router.post('/egresados/signup', async (req, res) => {
-    //TODO sol error cuando se ingresa un dni existente con un correo que no y 
+
+router.post('/egresados/signup', async (req, res) => { 
     console.log(req.body);
     //res.send('ok');
     const { name, lastname, dni, email, password, confirm_password, country, city, interests, age, gender} = req.body;
