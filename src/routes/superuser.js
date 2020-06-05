@@ -183,6 +183,10 @@ router.post('/superuser/crearadmin', async (req, res) => {
     errors.push({text: 'Please Insert your DNI'});
   }
 
+  if(dni <= 0){
+    errors.push({text: 'Por favor inserte un DNI positivo'});
+  }
+
   if(email.length <= 0){
     errors.push({text: 'Please Insert your email'});
   }
@@ -190,7 +194,8 @@ router.post('/superuser/crearadmin', async (req, res) => {
     errors.push({text: 'Please Insert your address.'});
   }
   if(errors.length > 0){
-    res.render('superuser/crearadmin', { name, lastname, dni, email, address});
+    errors.push({text: 'Verifique los campos'});
+    res.render('admin/signup', { name, lastname, dni, email, address});
   } else {
     const emailUser = await Admins.findOne({email: email});
     if(emailUser) {

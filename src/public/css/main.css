@@ -99,6 +99,10 @@ p {
     background: #8FC413;
     width: 30%;  
 }
+.btn-color {
+    color: white;
+    background: #8FC413;
+}
 .selectpost {
     background: #8FC413;
     color: white;

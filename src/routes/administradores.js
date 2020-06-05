@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router(); //para creación de rutas
-
+//const io = require('../sockets');
 //const SuperUser = require('../models/superuser');
 const Administrador = require('../models/Administradores');
 const Noticia =  require('../models/Noticia');
@@ -53,19 +53,32 @@ router.post('/admin/setpass', async (req, res) => {
     } 
 });
 
-// TODO volver a ingresar authenticación
-router.get('/admin/home', /*isAuthenticated,*/ async (req, res) => {
-  const noticias = await Noticia.find();
-  //console.log(noticias);
-  //console.log(timeago(new Date('2/10/1994')));
-  res.render('admin/home', {noticias});
+router.get('/admin/home', isAuthenticated, async (req, res) => {
+  if(req.user.tipouser == 'administrador'){
+    const noticias = await Noticia.find();
+    //console.log(noticias);
+    //console.log(timeago(new Date('2/10/1994')));
+    res.render('admin/home', {noticias});
+  }
+  else{
+    req.flash('error_msg', 'Error');
+    res.redirect('/');
+  }
+  
 });
 
-router.get('/admin/crearcontenido', /*isAuthenticated,*/ (req,res) => {
+router.get('/admin/crearcontenido', isAuthenticated, (req,res) => {
+  if(req.user.tipouser == 'administrador'){
     res.render('admin/crearcontenido');
+  }
+  else{
+    req.flash('error_msg', 'Error');
+    res.redirect('/');
+  }
+    
 });
 
-router.post('/admin/crearcontenido', /*isAuthenticated,*/ async (req,res) => {
+router.post('/admin/crearcontenido', async (req,res) => {
     //console.log(req.file);
     //TODO Poner mensaje cuando se cargue una imagen 
     //const { title, description, image} = req.body;
@@ -83,26 +96,46 @@ router.post('/admin/crearcontenido', /*isAuthenticated,*/ async (req,res) => {
     res.redirect('/admin/home');
 });
 
+
 //ruta para mostrar una noticia y ahí editarla o eliminarla
-router.get('/admin/noticia/:id', /*isAuthenticated,*/ async (req,res) => {
-  const { id } = req.params;
-  const noticia = await Noticia.findById(id);
-  console.log(noticia);
-  res.render('admin/noticiaprofile', {noticia}); 
+router.get('/admin/noticia/:id', isAuthenticated, async (req,res) => {
+  if(req.user.tipouser == 'administrador'){
+    const { id } = req.params;
+    const noticia = await Noticia.findById(id);
+    console.log(noticia);
+    res.render('admin/noticiaprofile', {noticia});
+  }
+  else{
+    req.flash('error_msg', 'Error');
+    res.redirect('/');
+  }
 });
 
-router.get('/admin/noticia/:id/delete', /*isAuthenticated,*/ async (req,res) => {
-  //console.log(req.params.id);
-  const {id} = req.params;
-  const noticia = await Noticia.findByIdAndDelete(id); //al eliminar la img nos devuelve un objeto de esa img
-  //console.log(path.resolve());
-  //await unlink('/static/' + noticia.pathimg);
-  fs.unlink("src/public/"+noticia.pathimg,function(err){
-    if(err) throw err;
-      console.log('File deleted!');
-  });
-  res.redirect('/admin/home');  
+router.get('/admin/noticia/:id/delete', isAuthenticated, async (req,res) => {
+  if(req.user.tipouser == 'administrador'){
+    //console.log(req.params.id);
+    const {id} = req.params;
+    const noticia = await Noticia.findByIdAndDelete(id); //al eliminar la img nos devuelve un objeto de esa img
+    //console.log(path.resolve());
+    //await unlink('/static/' + noticia.pathimg);
+    fs.unlink("src/public/"+noticia.pathimg,function(err){
+      if(err) throw err;
+        console.log('File deleted!');
+    });
+    res.redirect('/admin/home'); 
+  }
+  else{
+    req.flash('error_msg', 'Error');
+    res.redirect('/');
+  } 
   
 });
 
+router.post('/admin/publicarcontenido', (req,res) =>{
+  //req.flash('success_msg', 'msm Posteado');
+  //res.redirect('/admin/crearcontenido');
+  //res.send('en construcción');
+  //console.log('publicando pru...');
+  //socket.emit('publicacion', {title: 'concierto'});
+})
 module.exports = router;
