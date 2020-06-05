@@ -20,11 +20,10 @@ const { format } = require('timeago.js'); //permite dar un formato más legible 
 ///////Initialation
 const app = express();
 const server = http.createServer(app);
-const io = socketIO(server);
-
+const io = socketIO.listen(server);
 
 // sockets
-//require('./sockets')(io);
+require('./sockets')(io);
 
 //base de datos
 require('./database');
@@ -56,7 +55,7 @@ app.use(session({ //para guardar los datos de inicio de los usuarios
     resave: true,
     saveUninitialized: true
 }));
-app.use(morgan('dev'));
+//app.use(morgan('dev'));
 const storage = multer.diskStorage({
     destination: path.join(__dirname, 'public/images/uploads'),
     filename: (req, file, cb, filename) => {
@@ -108,6 +107,7 @@ server.listen(port,host, ()=> {
 });
 
 //io representa la conexión con todos los sockets
+/*
 io.on('connection', (socket)=>{
     console.log('new connection of sockets', socket.id);
 
@@ -116,7 +116,7 @@ io.on('connection', (socket)=>{
         console.log(data);
         io.sockets.emit('post:message2', data); //se emita a los clientes
     });
-});
+});*/
 
 /*
 ////////Server listening con port y host

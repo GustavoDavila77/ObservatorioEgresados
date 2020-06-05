@@ -2,6 +2,33 @@
 // este socket es todo el codigo del frontend que va a permitir enviar
 // los eventos al servidor
 
+$(function () {
+    //alert('works!')
+    const socket = io();
+
+    // obtaining DOM elements from the Chat Interface
+    const $messageForm = $('#message-form');
+    const $messageBox = $('#message');
+    const $chat = $('#chat');
+
+    // events
+    $messageForm.submit( e => {
+        e.preventDefault();
+        //console.log($messageBox.val());
+        socket.emit('send message', $messageBox.val());
+          $messageBox.val('');
+        /*
+        socket.emit('send message', $messageBox.val(), data => {
+          $chat.append(`<p class="error">${data}</p>`)
+        });
+        $messageBox.val('');*/
+      });
+
+      socket.on('new message', function(data) {
+          $chat.append(data + '<br/>');
+      });
+})
+/*
 function init(){
 const socket = io()
 
@@ -36,3 +63,4 @@ btn.addEventListener('click', function() {
 
 // TODO sol la pagina el postear se recarga de inmediati
 document.addEventListener('DOMContentLoaded', init); //para saber si la pag ya cargo
+*/
