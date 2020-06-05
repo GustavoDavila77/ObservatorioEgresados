@@ -4,6 +4,7 @@ const router = express.Router(); //para creación de rutas
 
 const BDvalidation = require('../models/BDValidation');
 const Egresado = require('../models/Egresado');
+const Noticia =  require('../models/Noticia');
 const nodemailer = require('nodemailer');
 
 const { isAuthenticated } = require('../helpers/auth');
@@ -12,15 +13,9 @@ router.get('/egresados/signup', (req, res) => {
     res.render('egresados/signup');
 });
 
-router.get('/egresados/home', isAuthenticated, (req, res) => {
-  if(req.user.tipouser == 'egresado'){
-    res.render('egresados/home');
-  }
-  else{
-    req.flash('error_msg', 'Error');
-    res.redirect('/');
-  }
-  
+router.get('/egresados/home', /*isAuthenticated,*/ async (req, res) => {
+  const noticias = await Noticia.find();
+  res.render('egresados/home', {noticias});  
 });
 
 router.get('/egresados/setpass', isAuthenticated, (req, res) => {

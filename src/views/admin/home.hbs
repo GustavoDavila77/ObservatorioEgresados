@@ -1,11 +1,32 @@
-<!-- Home admin-->
-<!-- TODO hacer home-->
-<!-- TODO hacer cambio de contraseña admin-->
 {{> navigationadmin}}
 
-<div class="homeadmin">
+<div class="homeadmin mt-4">
     <div class="container">
-        <h1>Home del Administrador - En construcción :) ...</h1>
+
+        <div class="row text-center mb-3">
+            <div class="col">
+                <h1 class="text-center"> <strong>Eventos UTP</strong></h1>
+            </div>
+            
+        </div>
+
+        <div class="row">
+            <div class="card-columns">
+                {{#each noticias}}
+                    <div class="card">
+                        <img src="/static/{{pathimg}}" alt="" class="card-img-top">  
+                        <div class="card-body">
+                            <h5>{{title}}</h5>
+                            <p class="card-text">{{description}}</p>
+                            <a href="/admin/noticia/{{_id}}" class="btn btn-ver-noticia">Ver</a>
+                        </div>
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+
     </div>
+
+    
     
 </div>
