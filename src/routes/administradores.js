@@ -1,15 +1,18 @@
 const express = require('express');
 const router = express.Router(); //para creación de rutas
-//const io = require('../sockets');
-//const SuperUser = require('../models/superuser');
 const Administrador = require('../models/Administradores');
 const Noticia =  require('../models/Noticia');
-
+const Egresado =  require('../models/Egresado');
 const { isAuthenticated } = require('../helpers/auth');
-var timeago = require('timeago.js');
-const path = require('path');
-//const { unlink } = require('fs-extra');
+//var timeago = require('timeago.js');
 const fs = require('fs');
+
+function generarid2(){
+  var alfabeto = "abcdefghijkmnpqrtuvwxyzABCDEFGHIJKLMNPQRTUVWXYZ";
+  var contra = "";
+  for (i=0; i<8; i++) contra += alfabeto.charAt(Math.floor(Math.random()*alfabeto.length));
+  return contra;
+}
 
 router.get('/admin/setpass', isAuthenticated, (req, res) => {
   if(req.user.tipouser == 'administrador'){
@@ -131,11 +134,46 @@ router.get('/admin/noticia/:id/delete', isAuthenticated, async (req,res) => {
   
 });
 
-router.post('/admin/publicarcontenido', (req,res) =>{
-  //req.flash('success_msg', 'msm Posteado');
-  //res.redirect('/admin/crearcontenido');
-  //res.send('en construcción');
-  //console.log('publicando pru...');
-  //socket.emit('publicacion', {title: 'concierto'});
-})
+router.get('/admin/egresadoslist', /*isAuthenticated,*/ async (req,res) =>{
+    let egresados = await Egresado.find({});
+    console.log(generarid2());
+    egresados.forEach(egresado => {
+      egresado.tipouser = generarid2();
+    });
+    //res.render('admin/adminlist',{admins}); */
+    res.render('egresados/egresadoslist', {egresados});
+
+});
+
+
+router.post('/admin/consultaregresados', /*isAuthenticated,*/ async (req,res) =>{
+  const {name} = req.body;
+  var existen = 0;
+  let egresados = await Egresado.find({name: name});
+  let Allegresados = await Egresado.find({});
+  console.log(Allegresados);
+  Allegresados.forEach(Allegresado => {
+    Allegresado.tipouser = generarid2();
+  });
+  egresados.forEach(egresado => {
+    egresado.tipouser = generarid2();
+    Allegresados.forEach(Allegresado => {
+      if(egresado.name == Allegresado.name){
+        existen = existen + 1;
+      }
+    });
+  });
+  console.log('aqui funciona');
+  //console.log(egresados);
+  if(existen > 0){
+    res.render('egresados/egresadoslist',{egresados});
+  }
+  else{
+    console.log('no encontrado');
+    req.flash('error_msg', 'Usuario no encontrado');
+    res.redirect('/admin/egresadoslist');
+  }
+
+});
+
 module.exports = router;

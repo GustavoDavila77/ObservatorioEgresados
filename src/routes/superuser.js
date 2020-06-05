@@ -147,6 +147,7 @@ router.get('/superuser/crearadmin', isAuthenticated, async (req, res) => {
   
 });
 
+// TODO no se muestran errores
 router.post('/superuser/crearadmin', async (req, res) => {
   const { name, lastname, dni, email, address, country, city} = req.body;
   const tipouser = 'administrador';
