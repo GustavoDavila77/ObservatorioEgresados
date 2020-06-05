@@ -1,26 +1,27 @@
 <!-- TODO Crear ruta de egresados--> 
 {{> navigationegresado}}
 
-<div class="homegresado">
+<div class="homegresado mt-4">
     <div class="container">
-        <h1>noticias de la plataforma - En construcción :) ...</h1>
+        <div class="row text-center">
+           <div class="col">
+               <h1> <STROng>Eventos UTP</STROng> </h1>
+           </div> 
+        </div>
+        
 
         <div class="row">
-            <div class="card-columns">
+            <div class="col-md-8 offset-md-2">
                 {{#each noticias}}
-                    <div class="card">
+                    <div class="card mt-5">
                         <img src="/static/{{pathimg}}" alt="" class="card-img-top">  
                         <div class="card-body">
                             <h5>{{title}}</h5>
                             <p class="card-text">{{description}}</p>
-                            
                         </div>
                     </div>
-                    <div>
-                
-                    </div>
                 {{/each}}
-            </div>
+            </div>       
         </div>
     </div>
     
