@@ -18,12 +18,8 @@ router.get('/egresados/home', async (req, res) => {
   if(req.user.tipouser == 'egresado'){
     // Filtro de noticias según el interes del egresado
     const interestsuser = req.user.interests;  //es un array 
-    console.log(interestsuser);
-    //hacer un query donde se obtengan solo las noticias con esos intereses
+    //se hacer un query para obtener la noticias que contengan los intereses del usuario
     const noticias = await Noticia.find({interest: { $in: interestsuser}});
-    console.log('***** Noticias con filtro *******');
-    console.log(noticias);
-    //const noticias = await Noticia.find();
     res.render('egresados/home', {noticias}); 
   }
   else{
@@ -212,8 +208,44 @@ router.post('/egresados/preregistro', async (req, res) => {
     }
 });
 
-router.get('/egresados/chat', (req, res) => {
+router.get('/egresados/chat', isAuthenticated, (req, res) => {
   res.render('egresados/chat');
+});
+
+//modificación de intereses de los egresados
+router.post('/egresados/intereses', async (req, res) => {
+  //console.log(req.user._id);
+  let newinterests = [];
+  const {Deporte, Cultura, Conciertos, Observatorio, Certificaciones } = req.body;
+  if(Cultura != undefined){
+    newinterests.push(Cultura);
+  }
+  if(Deporte != undefined){
+    newinterests.push(Deporte);
+  }
+  if(Conciertos != undefined){
+    newinterests.push(Conciertos);
+  }
+  if(Observatorio != undefined){
+    newinterests.push(Observatorio);
+  }
+  if(Certificaciones != undefined){
+    newinterests.push(Certificaciones);
+  }
+  console.log(newinterests);
+  if(newinterests.length > 0){
+    //tener presente haciendo un find y un updateOne no funciona, ambos deben ser igulales- tener el One
+    const egresado = await Egresado.findOne({_id: req.user._id});
+    await egresado.updateOne({interests: newinterests});
+    await egresado.save();
+    console.log('Has cambiado los intereses');
+    req.flash('success_msg', 'Change successfull. Enter again');
+    res.redirect('/egresados/home');
+  }else{
+    req.flash('error_msg', 'Select at least one item');
+    res.redirect('/egresados/home');
+  }
+
 });
 
 module.exports = router;
