@@ -15,11 +15,11 @@
                     <div class="card card-redondeado">
                         <div class="card-body">
                             <div class="form-group">
-                                <input type="text" class="title-post" name="titlepost" placeholder="Ingrese el Título" required>
+                                <input type="text" class="title-post" name="titlepost" placeholder="Ingrese el Título" value="{{titlepost}}" required>
                                 <hr style="width: 30%; height:2px;border-width:0;color:#476209;background-color:#8FC413">
                             </div>
                             <div class="form-group">
-                                <textarea class="form-control text-area-post" name="description" rows="6" placeholder="Ingrese el texto" required></textarea>
+                                <textarea class="form-control text-area-post" name="description" rows="6" placeholder="Ingrese el texto" value="{{description}}" required></textarea>
                             </div>
 
                             <div class="form-group">
@@ -40,15 +40,18 @@
                                         <span class="btn btn-default btn-file">
                                             Archivos <input type="file">
                                         </span>
-                                    </div>
+                                    </div> -->
                                     <div class="col-md-3 mt-2">
-                                        <select class="form-control form-control-sm selectpost" name="interestpost">
-                                            <option selected value="null">Intereses</option>   
-                                            <option value="conciertos">Conciertos</option>
-                                            <option value="deporte">Deporte</option>
-                                            <option value="arte">Arte</option>       
+                                        <select class="form-control form-control-sm selectpost" name="interestpost" required>
+                                            <option selected value="null">Interés</option>
+                                            <option value="Deporte">Deporte</option>   
+                                            <option value="Cultura">Cultura</option>
+                                            <option value="Conciertos">Conciertos</option>
+                                            <option value="Observatorio">Observatorio</option>
+                                            <option value="Certificaciones">Certificaciones</option>   
                                         </select>
-                                    </div> -->                               
+                                    </div>                               
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -59,9 +62,14 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-group text-center mt-4">
+                        <a href="/admin/home">Ir a Home</a>
+                    </div>
                 </form>
             </div>
         </div>
+        
+        
 
          <div class="row">
             <div class="col">

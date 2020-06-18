@@ -9,7 +9,8 @@ const noticeSchema = new Schema({
     originalnameimg: {type: String},
     mimetype: {type: String},
     sizeimg: {type: Number},
-    createdimg: {type: Date, default: Date.now()}
+    createdimg: {type: Date, default: Date.now()},
+    interest: {type: String, required:true}
 });
 
 const noticia = model('noticias', noticeSchema);

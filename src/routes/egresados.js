@@ -16,7 +16,14 @@ router.get('/egresados/signup', (req, res) => {
 
 router.get('/egresados/home', async (req, res) => {
   if(req.user.tipouser == 'egresado'){
-    const noticias = await Noticia.find();
+    // Filtro de noticias según el interes del egresado
+    const interestsuser = req.user.interests;  //es un array 
+    console.log(interestsuser);
+    //hacer un query donde se obtengan solo las noticias con esos intereses
+    const noticias = await Noticia.find({interest: { $in: interestsuser}});
+    console.log('***** Noticias con filtro *******');
+    console.log(noticias);
+    //const noticias = await Noticia.find();
     res.render('egresados/home', {noticias}); 
   }
   else{
@@ -86,6 +93,9 @@ router.post('/egresados/signup', async (req, res) => {
     if(dni.length <= 0){
         errors.push({text: 'Please Insert your dni'});
     }
+    if(dni <= 0){
+      errors.push({text: 'Please Insert correct dni'});
+    }
     if(email.length <= 0){
         errors.push({text: 'Please Insert your email'});
     } 
@@ -114,9 +124,8 @@ router.post('/egresados/signup', async (req, res) => {
       errors.push({text: 'Please Insert your gender'});
     }
     if(errors.length > 0){ 
-      res.render('egresados/signup', {errors, lastname, name, dni, email, password, confirm_password, tipouser, age});
+      res.render('egresados/signup', {errors, name,lastname, dni, email, password, age});
     } else {
-        //res.send('fine');
       // Look for email coincidence - hay un user registrado con el mismo correo?
       //let pruebase = Egresado.find();
       //console.log(pruebase);
@@ -138,7 +147,8 @@ router.post('/egresados/signup', async (req, res) => {
             const newEgresado = new Egresado({name, lastname,email,password,dni,country,city,interests,age,gender,tipouser});
             console.log('despues de crear');
             newEgresado.password = await newEgresado.encryptPassword(password); //se remplaza la contrase por la encriptada
-            console.log('despues de encryptar'); 
+            console.log('********* Info Egresado a registrar *********')
+            console.log(newEgresado); 
             await newEgresado.save();  
             console.log('Te has registrado!');
             req.flash('success_msg', 'You are registered.');
@@ -187,6 +197,8 @@ router.post('/egresados/preregistro', async (req, res) => {
                     console.log(error);
                 } else {
                     console.log('Email enviado: ' + info.response);
+                    req.flash('success_msg', 'Message Sent');
+                    res.redirect('/');
                 }
             });
             res.redirect('/');

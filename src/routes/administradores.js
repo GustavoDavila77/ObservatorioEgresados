@@ -46,10 +46,10 @@ router.post('/admin/setpass', async (req, res) => {
         await emailUser.updateOne({password: await emailUser.encryptPassword(password)});
         await emailUser.save();
         console.log('Has cambiado tu clave');
-        req.flash('success_msg', 'Cambio de clave exitoso. ingrese nuevamente');
+        req.flash('success_msg', 'Change successfull. Enter again');
         res.redirect('/');
       } else{
-        req.flash('error_msg', 'El correo no pertenece a ningun super usuario');
+        req.flash('error_msg', 'Mail not match with any user');
         res.redirect('/admin/ChangePasswd');
       }
           
@@ -84,19 +84,27 @@ router.get('/admin/crearcontenido', isAuthenticated, (req,res) => {
 router.post('/admin/crearcontenido', async (req,res) => {
     //console.log(req.file);
     //TODO Poner mensaje cuando se cargue una imagen 
-    //const { title, description, image} = req.body;
-    //TODO poner condicional en caso que no se suba una imagen
-    const noticia = new Noticia();
-    noticia.title = req.body.titlepost;
-    noticia.description = req.body.description;
-    noticia.filenameimg =  req.file.filename;
-    noticia.pathimg = 'images/uploads/'+ req.file.filename;
-    noticia.originalnameimg =  req.file.originalname;
-    noticia.mimetype =  req.file.mimetype;
-    noticia.sizeimg =  req.file.size;
-    //console.log(noticia); 
-    await noticia.save();
-    res.redirect('/admin/home');
+    const interest = req.body.interestpost;
+    if (interest == 'null'){
+      req.flash('error_msg', 'Please insert one interest');
+      res.redirect('/admin/crearcontenido');
+    }
+    else{
+      const noticia = new Noticia();
+      noticia.title = req.body.titlepost;
+      noticia.description = req.body.description;
+      noticia.filenameimg =  req.file.filename;
+      noticia.pathimg = 'images/uploads/'+ req.file.filename;
+      noticia.originalnameimg =  req.file.originalname;
+      noticia.mimetype =  req.file.mimetype;
+      noticia.sizeimg =  req.file.size;
+      noticia.interest =  req.body.interestpost;
+      
+      console.log(noticia); 
+      await noticia.save();
+      res.redirect('/admin/home');
+    }
+    
 });
 
 
@@ -141,7 +149,7 @@ router.get('/admin/egresadoslist', /*isAuthenticated,*/ async (req,res) =>{
       egresado.tipouser = generarid2();
     });
     //res.render('admin/adminlist',{admins}); */
-    res.render('egresados/egresadoslist', {egresados});
+    res.render('admin/egresadoslist', {egresados});
 
 });
 
