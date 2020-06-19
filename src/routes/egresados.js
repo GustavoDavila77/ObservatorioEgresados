@@ -20,7 +20,17 @@ router.get('/egresados/home', async (req, res) => {
     const interestsuser = req.user.interests;  //es un array 
     //se hacer un query para obtener la noticias que contengan los intereses del usuario
     const noticias = await Noticia.find({interest: { $in: interestsuser}});
-    res.render('egresados/home', {noticias}); 
+
+    const arrayintereses = [];
+    
+    req.user.interests.forEach(element => {
+      arrayintereses.push({text: element});
+    });
+
+    console.log(arrayintereses);
+    //arrayintereses.push(req.user.interests);
+    
+    res.render('egresados/home', {noticias, arrayintereses}); 
   }
   else{
     req.flash('error_msg', 'Error');

@@ -123,6 +123,17 @@ p {
     margin-bottom: 10%;
 }
 
+#yourinterests {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;*/
+}
+
+#yourinterests > .flexint {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
 /********** footer **********/
 #footer {
     margin-top: 3%;
