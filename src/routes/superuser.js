@@ -268,4 +268,87 @@ router.post('/superuser/consultaradmins', async (req, res) => {
   }
 });
 
+router.get('/superuser/modificarlist', isAuthenticated, async (req, res) => {
+  // esto se hace para evitar que un usuario una vez autenticado, salte entre rutas
+  if(req.user.tipouser == 'superusuario'){
+    let admins = await Admins.find({});
+    admins.forEach(admin => {
+      admin.tipouser = generarid();
+    });
+    res.render('admin/modificarlist',{admins});
+  }
+  else{
+    req.flash('error_msg', 'Error');
+    res.redirect('/');
+  }
+   
+});
+
+router.get('/superuser/modificaradmins/:id', isAuthenticated, async (req, res) => {
+  // esto se hace para evitar que un usuario una vez autenticado, salte entre rutas
+  if(req.user.tipouser == 'superusuario'){
+    const { id } = req.params;
+    let admin = await Admins.findById(id);
+    console.log(admin);
+    //res.send('todo bem');
+    res.render('admin/modificaradmins',{admin});
+  }
+  else{
+    req.flash('error_msg', 'Error');
+    res.redirect('/');
+  }
+   
+});
+
+router.put('/superuser/modificaradmins/:id', isAuthenticated, async (req, res) => {
+  // esto se hace para evitar que un usuario una vez autenticado, salte entre rutas
+  if(req.user.tipouser == 'superusuario'){
+    let errors = [];
+    const { id } = req.params;
+    console.log(id);
+    const { name, lastname, dni, address, country, city} = req.body;
+    console.log(address);
+    //validaciones
+    if(name.length <= 0){
+      errors.push({text: 'Please Insert your Name'});
+    }
+    if(lastname.length <= 0){
+        errors.push({text: 'Please Insert your LastName'});
+    }
+
+    if(dni.length <= 0){
+      errors.push({text: 'Please Insert your DNI'});
+    }
+
+    if(dni <= 0){
+      errors.push({text: 'Por favor inserte un DNI positivo'});
+    }
+
+    if(address <= 0) {
+      errors.push({text: 'Please Insert your address.'});
+    }
+    if(country == 'null') {
+      errors.push({text: 'Please Insert a country'});
+    }
+    if(city == 'null') {
+      errors.push({text: 'Please Insert your city'});
+    }
+    if(errors.length > 0){
+      req.flash('error_msg', 'Error, Enter all data');
+      res.redirect('/superuser/modificarlist');
+    } else {
+      //const { id } = req.params;
+      let admin = await Admins.findByIdAndUpdate(id, {name, lastname, dni,address,country,city});
+      console.log(admin);
+      //res.send('todo ok pana');
+      req.flash('success_msg', 'Modified succesfull.');
+      res.redirect('/superuser/modificarlist');
+    }
+  }
+  else{
+    req.flash('error_msg', 'Error');
+    res.redirect('/');
+  }
+   
+});
 module.exports = router;

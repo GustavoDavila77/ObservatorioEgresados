@@ -1,0 +1,67 @@
+{{> navigationsuperuser}}
+
+<div class="adminlist mt-2">
+    <div class="container">
+        <div class="row">
+            {{#if user}}
+                <h6>user: {{user.tipouser}}</h6>
+            {{/if}}
+        </div>
+        <div class="row text-center mt-4 mb-5">
+            <div class="col">
+                <h4><strong>Lista de Administradores a modificar</strong></h4>
+            </div>
+            
+        </div>
+        
+        <form action="/superuser/consultaradmins" method="POST">
+            <div class="row">
+                <div class="col-6 col-md-3">
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="name" placeholder="Nombre" value="{{name}}" autofocus>
+                    </div>
+                </div>
+                <div class="col-6 col-md-2">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-enter">Buscar </button>
+                    </div>
+                </div>
+            </div>
+            
+        </form>
+
+        <div class="row">
+            <div class="col-md-8">
+                {{#each admins}}
+                    <div class="accordion mt-2" id="i{{tipouser}}">
+                    
+                        <div class="card">
+                                <h2 class="mb-0">
+                                    <a href="/superuser/modificaradmins/{{_id}}" class="btn btn-link">{{name}} {{lastname}}</a>
+                                    <!--<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#{{tipouser}}" aria-expanded="true" aria-controls="{{tipouser}}">
+                                    {{name}} {{lastname}}
+                                    </button> -->
+                                </h2>
+                        </div>
+                    </div>
+
+                {{/each}}
+            </div>
+        </div>
+
+        <div class="form-group text-center mt-5">
+            <a href="/superuser/home">Atras</a>
+        </div>  
+    </div>
+
+</div>
+
+<!-- 
+<div>
+    {{#each admins}}
+        <p>nombre: {{name}}</p>
+        <p>apellido: {{lastname}}</p>
+    {{/each}}
+</div>
+--> 
+
